@@ -1,7 +1,8 @@
 # chain_reaction
 
 A Remaster of the original ChainReaction (https://github.com/gabybarsky/ChainReaction1)
-Make with the power of Flutter.
+
+Made with the power of Flutter!
 
 ## Getting Started
 
