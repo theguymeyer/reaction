@@ -14,6 +14,8 @@ class OpenPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
 
+    // canvas.save();
+
     // print("Painting");
 
     for (var i = 0; i < points.length; i++) {

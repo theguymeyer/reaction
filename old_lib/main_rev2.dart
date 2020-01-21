@@ -8,13 +8,13 @@
 // package imports
 import 'dart:ui';
 import 'dart:math';
-import 'package:chain_reaction/fieldWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 // local imports
 import 'package:chain_reaction/point.dart';
+import 'package:chain_reaction/fieldWidget.dart';
 
 //creating Key for playing field
 // GlobalKey _keyField = GlobalKey();
