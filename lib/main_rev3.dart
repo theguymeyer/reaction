@@ -33,8 +33,8 @@ class MyApp extends StatelessWidget {
       title: 'Chain Reaction',
 
       home: MultiProvider(
-        providers: [  // timer notifiers about game events
-          ChangeNotifierProvider(create: (context) => TimerNotifier()),
+        providers: [  // notifiers about game/user events
+          ChangeNotifierProvider(create: (context) => CaughtPointNotifier()),
           ChangeNotifierProvider(create: (context) => StatusNotifier()),
         ],
         child: GamePage(),
@@ -47,27 +47,35 @@ class MyApp extends StatelessWidget {
 /// This is the main widget in the application
 ///   child widgets include: Field, restartGame, Timer
 class GamePage extends StatefulWidget {
-  static List<int> _levels = [3]; // current level inside gameInfo.dart
+  // static List<int> _levels = [3,4]; // current level inside gameInfo.dart
 
   GamePage();
 
   @override
-  _GamePageState createState() => new _GamePageState();
+  _GamePageState createState() {
+    return new _GamePageState();
+  }
 
 }
 
 class _GamePageState extends State<GamePage> {
   // implement Notifier if FieldManagerWidget GestureDectector detects use tap
 
+  static int currentLevel = 1;
+
+  MyGameInfo gameInfo;   // Error with this
   FieldManagerWidget myField;
-  GameTimer myGameTimer = new GameTimer();
-  GameInfo gameInfo = new GameInfo();  
+  GameTimer myGameTimer;
 
   @override
   void initState() {
     super.initState();
 
-    myField = new FieldManagerWidget(gameInfo); // gameRules: numberOfPoints, speedRanges, radiusRanges
+    // game element
+    gameInfo = MyGameInfo(currentLevel);  
+
+    myField = new FieldManagerWidget(UniqueKey(), gameInfo); // gameRules: numberOfPoints, speedRanges, radiusRanges
+    myGameTimer = new GameTimer(UniqueKey());
 
   }
 
@@ -80,9 +88,17 @@ class _GamePageState extends State<GamePage> {
           Container( // Field
             child: myField
           ),
-          Container( // Timer bar
-            child: myGameTimer  // needs provider for listener_status: Completed => FieldManager.freezeField()
-          ),
+          Builder(builder: (context) {
+            return Visibility(
+              maintainSize: true, 
+              maintainAnimation: true,
+              maintainState: true,
+              visible: (Provider.of<StatusNotifier>(context).getStatus == Status.userTap) ? true : false, 
+              child: Container( // Timer bar
+                child: myGameTimer  // needs provider for listener_status: Completed => FieldManager.freezeField()
+              ),
+            );
+          }),
           Container( // Reset Button
             alignment: Alignment(-0.85, 0.93),
             child: IconButton(
@@ -90,17 +106,33 @@ class _GamePageState extends State<GamePage> {
               icon: Icon(FontAwesomeIcons.redo), 
               iconSize: 40,
               // onPressed: () {print("Pressed"); widget.restartGame(); buildAnimators(); },
-              onPressed: () { restartGame(); }
+              onPressed: () { restartLevel(); }
             )
           ),
           Container( // score Text
             alignment: Alignment(0.8, 0.93),
-            child: Text(
-              "${gameInfo.score.round()}",
-              style: TextStyle(
-                fontSize: 50.0,
-                fontWeight: FontWeight.w600,
-              ),
+            child: Consumer<CaughtPointNotifier>(
+              builder: (context, myCaughtPointNotifier, _) {
+
+                if (gameInfo.score.round() >= gameInfo.targetScoreForCurrentLevel.round()) {
+                  return IconButton(
+                    alignment: Alignment(1,1),
+                    icon: Icon(FontAwesomeIcons.play), 
+                    iconSize: 40,
+                    color: Colors.green,
+                    onPressed: () { nextLevel(); }
+                  );
+                } else {
+                  return Text(
+                    "${gameInfo.score.round()}/${gameInfo.targetScoreForCurrentLevel.round()}",
+                    style: TextStyle(
+                      fontSize: 50.0,
+                      fontWeight: FontWeight.w600,
+                      // backgroundColor: Colors.green,
+                    ),
+                  );
+                }
+              }
             ),
           ),
         ],
@@ -109,13 +141,29 @@ class _GamePageState extends State<GamePage> {
 
   }
 
-  void restartGame() {
-    setState(() {
-      // prepare a new field
-      myField = new FieldManagerWidget(gameInfo);
+  void restartLevel() {
 
-      myGameTimer = new GameTimer();
-      // Provider.of<TimerNotifier>(context, listen: false).resetTimer();
+    // do not change level
+    //    => currentLevel = (currentLevel); 
+
+    setState(() {
+      gameInfo.resetScore(); 
+      myField = FieldManagerWidget(UniqueKey(), gameInfo);
+      myGameTimer = GameTimer(UniqueKey());
+      Provider.of<StatusNotifier>(context, listen: false).setStatus(Status.ready);
+    });
+  }
+
+  void nextLevel() {
+    setState(() {
+
+      // cycle through the levels
+      currentLevel = (currentLevel + 1) % (gameInfo.numberOfLevels + 1);
+      
+      gameInfo = new MyGameInfo(currentLevel);  
+      myField = new FieldManagerWidget(UniqueKey(), gameInfo);
+      myGameTimer = new GameTimer(UniqueKey());
+      Provider.of<StatusNotifier>(context, listen: false).setStatus(Status.ready);
     });
   }
 

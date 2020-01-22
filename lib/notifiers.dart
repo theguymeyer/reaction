@@ -1,26 +1,6 @@
 import 'package:flutter/material.dart';
 // import 'package:provider/provider.dart';
 
-/// used to notify other widgets of timer events
-///   + control timer from field
-class TimerNotifier extends ChangeNotifier {
-  bool _timerOn = false;
-  bool get isTimerOn => _timerOn;
-
-  void startTimer() {
-    print("Timer Running ... ");
-    _timerOn = true; 
-    notifyListeners();
-  }
-
-  void stopTimer() {
-    print("Timer Stopped !!! ");
-    _timerOn = false; 
-    notifyListeners();
-  }
-
-}
-
 enum Status {
   ready,    // ready for user input
   userTap,  // user has tapped
@@ -36,6 +16,22 @@ class StatusNotifier extends ChangeNotifier {
   void setStatus(Status newStatus) {
     _status = newStatus;
     notifyListeners();
+  }
+
+}
+
+/// used to notify other widgets when a new point is frozen
+class CaughtPointNotifier extends ChangeNotifier {
+  bool _didCatchNewPoint = false;
+  bool get didCatchNewPoint => _didCatchNewPoint;
+
+  void caughtNew() {
+    _didCatchNewPoint = true; 
+    notifyListeners();
+  }
+
+  void resetNotifier() {
+    _didCatchNewPoint = false; 
   }
 
 }

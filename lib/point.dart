@@ -11,6 +11,7 @@ class Point {
   Offset vel; // direction of motion (speed and direction) as 2D vector
   final Paint _paint;
   bool moving = true;
+  double _value = 1;
 
   // color randomization
   static List<Color> colorList = [Colors.green, Colors.red, Colors.blue, Colors.yellow, Colors.black];
@@ -19,6 +20,8 @@ class Point {
   Point(this.pos, this.rad, this.vel) : _paint = Paint()..color = Colors.red;
 
   Offset get nextPos => pos + vel;
+  double get value => _value;
+
   void updateVelocity(Offset newVel) => vel = newVel;
 
   // stop moving

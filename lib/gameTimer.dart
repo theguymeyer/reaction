@@ -5,7 +5,9 @@ import 'package:provider/provider.dart';
 
 class GameTimer extends StatefulWidget {
 
-  GameTimer() : super();
+  Key key;
+
+  GameTimer(this.key);
 
   @override
   _GameTimerState createState() => new _GameTimerState();
@@ -27,7 +29,7 @@ class _GameTimerState extends State<GameTimer> with SingleTickerProviderStateMix
       vsync: this,
 
       // countdown time (TODO add to gameInfo variable API)
-      duration: new Duration(milliseconds: 2000),
+      duration: new Duration(milliseconds: 3000),
     );
 
     /// tween interpolation
@@ -41,12 +43,12 @@ class _GameTimerState extends State<GameTimer> with SingleTickerProviderStateMix
         });
       })
       ..addStatusListener((AnimationStatus status) {
-        setState(() {
-          if (status == AnimationStatus.completed) {
-            // Interrupt: fieldManagerWidget.freezeField() - freeze all points (use Provider class)
-            Provider.of<StatusNotifier>(context, listen: false).setStatus(Status.finished);
-          }
-        });
+        if (status == AnimationStatus.completed) {
+          Provider.of<StatusNotifier>(context, listen: false).setStatus(Status.finished);
+
+          setState(() {
+          }); 
+        }
       }
     );
 
@@ -57,23 +59,30 @@ class _GameTimerState extends State<GameTimer> with SingleTickerProviderStateMix
   @override
   Widget build(BuildContext context) {
 
-    final timerNotifier = Provider.of<TimerNotifier>(context);
-    final statusNotifier = Provider.of<StatusNotifier>(context);
-
-    // print("_timerAnimation.value:\t ${_timerAnimation.value}");
-
-    // Timer has set location/alignment (note: location should probably be in higher widget)
+    // Timer has set location/alignment (TODO: location should probably be in higher widget)
     return Consumer<StatusNotifier>(
-      builder: (context, _, __) {
+      builder: (context, myStatusNotifier, _) {
 
-        (statusNotifier.getStatus == Status.userTap) ? start() : null;
+        (myStatusNotifier.getStatus == Status.ready) ? stop() : null;
+        (myStatusNotifier.getStatus == Status.userTap) ? start() : null;
 
-        return Container(  // count down bar
-          alignment: Alignment(-1.0, 0.5),
-          margin: const EdgeInsets.all(10),
-          width: MediaQuery.of(context).size.width * 0.05,
-          height: MediaQuery.of(context).size.height * _timerAnimation.value,
-          color: Colors.green,
+        return Consumer<CaughtPointNotifier>(
+          builder: (context, myCaughtPointNotifier, _) {
+
+            // TODO make a stream from provider (currently throwing error: setState in build)
+            (myCaughtPointNotifier.didCatchNewPoint == true) ? addTimeToTimer(0.6) : null;
+
+            return Container(  // count down bar
+              alignment: Alignment(-1.0, 0.5),
+              decoration: new BoxDecoration(
+                color: Colors.green // TODO add animation here
+              ),
+              margin: const EdgeInsets.all(10),
+              width: MediaQuery.of(context).size.width * 0.05,
+              height: MediaQuery.of(context).size.height * _timerAnimation.value,
+              // color: Colors.green,
+            );
+          }
         );
       }
     );
@@ -89,10 +98,11 @@ class _GameTimerState extends State<GameTimer> with SingleTickerProviderStateMix
   void start() => _timerAnimationController.forward();
   void stop() => _timerAnimationController.stop();
   void reset() => _timerAnimationController.reset();
+  // void regenKey() => widget.key = UniqueKey();
 
   /// adds time to timerAnimation Tween
   /// Triggered by NEW moving point collisions with frozen points
-  void setNewTimerValue(double timeToAdd) {
+  void addTimeToTimer(double timeToAdd) {
     var currValue = _timerAnimation.value;
     var tmpTime = timeToAdd + currValue;
 
@@ -100,6 +110,9 @@ class _GameTimerState extends State<GameTimer> with SingleTickerProviderStateMix
     _timerAnimationController.reset();
     _tween.end = 0;
     _timerAnimationController.forward();
+
+    Provider.of<CaughtPointNotifier>(context, listen: false).resetNotifier();
+
   }
 
 }

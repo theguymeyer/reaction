@@ -19,10 +19,11 @@ import 'package:provider/provider.dart';  // testing - delet if unused
 
 class FieldManagerWidget extends StatefulWidget {
 
-  GameInfo gameInfo;
+  Key key;
+  MyGameInfo gameInfo;
   List<Point> _pointList = [];  // all points are stored here - move to state widget?
 
-  FieldManagerWidget(this.gameInfo);
+  FieldManagerWidget(this.key, this.gameInfo);
 
   @override
   _FieldManagerWidgetState createState() => new _FieldManagerWidgetState();
@@ -33,7 +34,7 @@ class _FieldManagerWidgetState extends State<FieldManagerWidget> {
 
   static PointManager pm = new PointManager();
   OpenPainter myPainter;
-  int _frameCallbackId; // render related
+  int _frameCallbackId; // render related - frame scheduling
 
   void resetField() {
     setState(() {
@@ -61,12 +62,24 @@ class _FieldManagerWidgetState extends State<FieldManagerWidget> {
     // points exist in field
     assert(widget._pointList.length != 0);
 
-    final statusNotifier = Provider.of<StatusNotifier>(context);
+    // final statusNotifier = Provider.of<StatusNotifier>(context);
     
-    return Consumer<TimerNotifier>(
-      builder: (context, timerEvent, _) {
+    return Consumer<StatusNotifier>(
+      builder: (context, statusNotifier, _) {
 
-        (statusNotifier.getStatus == Status.finished) ? freezeField() : null;
+        if (statusNotifier.getStatus != Status.ready) {
+          (statusNotifier.getStatus == Status.finished) ? freezeField() : null;
+
+          return Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            // color: Colors.green[50],
+
+            child: CustomPaint(
+              painter: new OpenPainter(widget._pointList)
+            ),
+          );
+        }
 
         return GestureDetector(
           // behavior: HitTestBehavior.translucent,
@@ -88,6 +101,12 @@ class _FieldManagerWidgetState extends State<FieldManagerWidget> {
     );
   }
 
+  @override
+  void dispose() {
+    _unscheduleTick();
+    super.dispose();
+  }
+
 
   /* Custom Methods */
 
@@ -100,9 +119,6 @@ class _FieldManagerWidgetState extends State<FieldManagerWidget> {
 
     Point newPoint = Point(Offset(x,y), 50, Offset(0,0));
     newPoint.stop();  // excessive
-
-
-    // timer.start();  // TODO (use Provider notification)
 
     // final timerNotifier = Provider.of<TimerNotifier>(context, listen: false).startTimer();
     Provider.of<StatusNotifier>(context, listen: false).setStatus(Status.userTap);
@@ -165,8 +181,8 @@ class _FieldManagerWidgetState extends State<FieldManagerWidget> {
     myPoint.stop(); 
 
     if (currentVelocity != myPoint.vel) {
-      // TODO send interrupt to update score
-      widget.gameInfo.addPoints(100);
+      Provider.of<CaughtPointNotifier>(context, listen: false).caughtNew();
+      widget.gameInfo.addPoints(myPoint.value);
     }
 
     return myPoint;
@@ -177,6 +193,7 @@ class _FieldManagerWidgetState extends State<FieldManagerWidget> {
   // schedule new frame
   
   void _scheduleTick() {
+
     _frameCallbackId = SchedulerBinding.instance.scheduleFrameCallback(_tick);
   }
 
