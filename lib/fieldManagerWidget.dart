@@ -20,7 +20,7 @@ import 'package:provider/provider.dart';  // testing - delet if unused
 class FieldManagerWidget extends StatefulWidget {
 
   Key key;
-  MyGameInfo gameInfo;
+  GameInfo gameInfo;
   List<Point> _pointList = [];  // all points are stored here - move to state widget?
 
   FieldManagerWidget(this.key, this.gameInfo);
@@ -181,7 +181,8 @@ class _FieldManagerWidgetState extends State<FieldManagerWidget> {
     myPoint.stop(); 
 
     if (currentVelocity != myPoint.vel) {
-      Provider.of<CaughtPointNotifier>(context, listen: false).caughtNew();
+      // toggle caughtPointNotifier to notify listeners
+      Provider.of<CaughtPointNotifier>(context, listen: false).toggle();
       widget.gameInfo.addPoints(myPoint.value);
     }
 

@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 // import 'package:provider/provider.dart';
 
 enum Status {
-  ready,    // ready for user input
-  userTap,  // user has tapped
-  finished  // timer ran out
+  ready,    /// ready for user input
+  userTap,  /// user has tapped
+  finished  /// timer ran out
 }
 
+/// tracks the status of the application
 class StatusNotifier extends ChangeNotifier {
 
   Status _status = Status.ready;
@@ -21,17 +22,16 @@ class StatusNotifier extends ChangeNotifier {
 }
 
 /// used to notify other widgets when a new point is frozen
-class CaughtPointNotifier extends ChangeNotifier {
-  bool _didCatchNewPoint = false;
-  bool get didCatchNewPoint => _didCatchNewPoint;
+class CaughtPointNotifier extends ChangeNotifier{
 
-  void caughtNew() {
-    _didCatchNewPoint = true; 
+  ValueNotifier<bool> _caughtNewPoint = ValueNotifier(false);
+
+  ValueNotifier<bool> get caughtNewPoint => _caughtNewPoint;
+
+  // notifier does not care about value only when the event occured
+  void toggle() {
+    _caughtNewPoint = ValueNotifier(!(_caughtNewPoint.value));
     notifyListeners();
-  }
-
-  void resetNotifier() {
-    _didCatchNewPoint = false; 
   }
 
 }

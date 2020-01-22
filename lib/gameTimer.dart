@@ -6,8 +6,9 @@ import 'package:provider/provider.dart';
 class GameTimer extends StatefulWidget {
 
   Key key;
+  double timeBonus;
 
-  GameTimer(this.key);
+  GameTimer(this.key, this.timeBonus);
 
   @override
   _GameTimerState createState() => new _GameTimerState();
@@ -69,8 +70,13 @@ class _GameTimerState extends State<GameTimer> with SingleTickerProviderStateMix
         return Consumer<CaughtPointNotifier>(
           builder: (context, myCaughtPointNotifier, _) {
 
+            // print("context\t ${context}");
+            // print("myCaughtPointNotifier\t ${myCaughtPointNotifier.caughtNewPoint}");
+
             // TODO make a stream from provider (currently throwing error: setState in build)
-            (myCaughtPointNotifier.didCatchNewPoint == true) ? addTimeToTimer(0.6) : null;
+            (myCaughtPointNotifier.caughtNewPoint.value == true) ? addTimeToTimer(widget.timeBonus) : null;
+
+            // ValueListenableProvider<CaughtPointNotifier>.value(value: false,);
 
             return Container(  // count down bar
               alignment: Alignment(-1.0, 0.5),
@@ -106,12 +112,15 @@ class _GameTimerState extends State<GameTimer> with SingleTickerProviderStateMix
     var currValue = _timerAnimation.value;
     var tmpTime = timeToAdd + currValue;
 
-    _tween.begin = (tmpTime > 1) ? 1 : (tmpTime); // max out at 1
-    _timerAnimationController.reset();
-    _tween.end = 0;
-    _timerAnimationController.forward();
+    // print("cuaght points");
 
-    Provider.of<CaughtPointNotifier>(context, listen: false).resetNotifier();
+    stop();
+    _tween.begin = (tmpTime > 1) ? 1 : (tmpTime); // max out at 1
+    _tween.end = 0;
+    reset();
+    start();
+
+    Provider.of<CaughtPointNotifier>(context, listen: false).toggle();
 
   }
 

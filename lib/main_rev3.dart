@@ -63,7 +63,7 @@ class _GamePageState extends State<GamePage> {
 
   static int currentLevel = 1;
 
-  MyGameInfo gameInfo;   // Error with this
+  GameInfo gameInfo;   // Error with this
   FieldManagerWidget myField;
   GameTimer myGameTimer;
 
@@ -71,11 +71,10 @@ class _GamePageState extends State<GamePage> {
   void initState() {
     super.initState();
 
-    // game element
-    gameInfo = MyGameInfo(currentLevel);  
-
+    // build game elements
+    gameInfo = GameInfo(currentLevel);  
     myField = new FieldManagerWidget(UniqueKey(), gameInfo); // gameRules: numberOfPoints, speedRanges, radiusRanges
-    myGameTimer = new GameTimer(UniqueKey());
+    myGameTimer = new GameTimer(UniqueKey(), gameInfo.timeBonusPerCatch);
 
   }
 
@@ -114,6 +113,8 @@ class _GamePageState extends State<GamePage> {
             child: Consumer<CaughtPointNotifier>(
               builder: (context, myCaughtPointNotifier, _) {
 
+                // print("myCaughtPointNotifier\t ${myCaughtPointNotifier.caughtNewPoint}");
+
                 if (gameInfo.score.round() >= gameInfo.targetScoreForCurrentLevel.round()) {
                   return IconButton(
                     alignment: Alignment(1,1),
@@ -149,7 +150,7 @@ class _GamePageState extends State<GamePage> {
     setState(() {
       gameInfo.resetScore(); 
       myField = FieldManagerWidget(UniqueKey(), gameInfo);
-      myGameTimer = GameTimer(UniqueKey());
+      myGameTimer = GameTimer(UniqueKey(), gameInfo.timeBonusPerCatch);
       Provider.of<StatusNotifier>(context, listen: false).setStatus(Status.ready);
     });
   }
@@ -160,10 +161,7 @@ class _GamePageState extends State<GamePage> {
       // cycle through the levels
       currentLevel = (currentLevel + 1) % (gameInfo.numberOfLevels + 1);
       
-      gameInfo = new MyGameInfo(currentLevel);  
-      myField = new FieldManagerWidget(UniqueKey(), gameInfo);
-      myGameTimer = new GameTimer(UniqueKey());
-      Provider.of<StatusNotifier>(context, listen: false).setStatus(Status.ready);
+      restartLevel();
     });
   }
 
