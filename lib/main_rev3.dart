@@ -148,7 +148,8 @@ class _GamePageState extends State<GamePage> {
     //    => currentLevel = (currentLevel); 
 
     setState(() {
-      gameInfo.resetScore(); 
+      gameInfo = GameInfo(currentLevel);  
+      // gameInfo.resetScore(); 
       myField = FieldManagerWidget(UniqueKey(), gameInfo);
       myGameTimer = GameTimer(UniqueKey(), gameInfo.timeBonusPerCatch);
       Provider.of<StatusNotifier>(context, listen: false).setStatus(Status.ready);
@@ -160,9 +161,11 @@ class _GamePageState extends State<GamePage> {
 
       // cycle through the levels
       currentLevel = (currentLevel + 1) % (gameInfo.numberOfLevels + 1);
+      print("currentLevel:\t${currentLevel}");
       
-      restartLevel();
     });
+    restartLevel();
+
   }
 
 }
