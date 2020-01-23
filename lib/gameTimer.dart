@@ -70,23 +70,18 @@ class _GameTimerState extends State<GameTimer> with SingleTickerProviderStateMix
         return Consumer<CaughtPointNotifier>(
           builder: (context, myCaughtPointNotifier, _) {
 
-            // print("context\t ${context}");
-            // print("myCaughtPointNotifier\t ${myCaughtPointNotifier.caughtNewPoint}");
-
             // TODO make a stream from provider (currently throwing error: setState in build)
             (myCaughtPointNotifier.caughtNewPoint.value == true) ? addTimeToTimer(widget.timeBonus) : null;
 
-            // ValueListenableProvider<CaughtPointNotifier>.value(value: false,);
-
-            return Container(  // count down bar
-              alignment: Alignment(-1.0, 0.5),
-              decoration: new BoxDecoration(
-                color: Colors.green // TODO add animation here
-              ),
-              margin: const EdgeInsets.all(10),
-              width: MediaQuery.of(context).size.width * 0.05,
-              height: MediaQuery.of(context).size.height * _timerAnimation.value,
-              // color: Colors.green,
+            return ClipRRect(
+              borderRadius: BorderRadius.circular(80.0),
+              child: Container(  // count down bar
+                decoration: new BoxDecoration(
+                  color: Colors.green // TODO add animation here
+                ),
+                width: MediaQuery.of(context).size.width * 0.05,
+                height: MediaQuery.of(context).size.height * _timerAnimation.value ,
+              )
             );
           }
         );

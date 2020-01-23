@@ -93,8 +93,9 @@ class _GamePageState extends State<GamePage> {
               maintainAnimation: true,
               maintainState: true,
               visible: (Provider.of<StatusNotifier>(context).getStatus == Status.userTap) ? true : false, 
-              child: Container( // Timer bar
-                child: myGameTimer  // needs provider for listener_status: Completed => FieldManager.freezeField()
+              child: Column( // Timer bar
+                verticalDirection: VerticalDirection.up,
+                children: <Widget>[myGameTimer]  // needs provider for listener_status: Completed => FieldManager.freezeField()
               ),
             );
           }),

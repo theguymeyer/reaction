@@ -8,7 +8,7 @@ class PointManager {
 
   static double radMax = 15;  // to have variant radiis
   double radOffset = radMax / 2 + 1;
-  double speedMultiple = (2); // to have variant point speeds
+  double speedMultiple = (4.5); // to have variant point speeds
   double speedOffset = 0.5;
 
   PointManager();

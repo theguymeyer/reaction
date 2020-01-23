@@ -10,7 +10,7 @@ class GameInfo {
   Levels _allLevels = new Levels();
   int _currentLevel;  /// Level numbering starts from 1 (...humans)
 
-  double _timeBonusPerCatch = 0.6;
+  double _timeBonusPerCatch = 0.3;
   int _batchSize;
   double _score = 0;
 
