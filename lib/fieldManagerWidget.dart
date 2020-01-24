@@ -49,6 +49,7 @@ class _FieldManagerWidgetState extends State<FieldManagerWidget> {
     myPainter = new OpenPainter(widget._pointList);
 
     _scheduleTick();
+    // TODO: timer.periodic to create updates every frame
 
   }
 
@@ -204,12 +205,13 @@ class _FieldManagerWidgetState extends State<FieldManagerWidget> {
 
   void _tick(Duration timestamp) {
 
+    // setState(() {
+    updateField();
+    // });
+
     // print("TICK!");
     _scheduleTick();  // prep for new frame
 
-    setState(() {
-      updateField();
-    });
 
   }
 

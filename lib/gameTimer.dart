@@ -40,7 +40,7 @@ class _GameTimerState extends State<GameTimer> with SingleTickerProviderStateMix
     _timerAnimation = _tween.animate(_timerAnimationController)
       ..addListener(() {
         setState(() {
-          // every step
+        //   // every step
         });
       })
       ..addStatusListener((AnimationStatus status) {
@@ -115,7 +115,7 @@ class _GameTimerState extends State<GameTimer> with SingleTickerProviderStateMix
     reset();
     start();
 
-    Provider.of<CaughtPointNotifier>(context, listen: false).toggle();
+    // Provider.of<CaughtPointNotifier>(context, listen: false).toggle();
 
   }
 
