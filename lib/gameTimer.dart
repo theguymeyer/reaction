@@ -67,11 +67,15 @@ class _GameTimerState extends State<GameTimer> with SingleTickerProviderStateMix
         (myStatusNotifier.getStatus == Status.ready) ? stop() : null;
         (myStatusNotifier.getStatus == Status.userTap) ? start() : null;
 
-        return Consumer<CaughtPointNotifier>(
+        return Consumer<UpdatedCaughtPointNotifier>(
           builder: (context, myCaughtPointNotifier, _) {
 
             // TODO make a stream from provider (currently throwing error: setState in build)
-            (myCaughtPointNotifier.caughtNewPoint.value == true) ? addTimeToTimer(widget.timeBonus) : null;
+            // (myCaughtPointNotifier.caughtNewPoint.value == true) ? addTimeToTimer(widget.timeBonus) : null;
+
+            // if (myCaughtPointNotifier.caughtPoints == context.dependOnInheritedWidgetOfExactType(UpdatedCaughtPointNotifier)) {
+            //   // myCaughtPointNotifier.caughtNew();
+            // }
 
             return ClipRRect(
               borderRadius: BorderRadius.circular(80.0),

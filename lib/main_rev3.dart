@@ -34,6 +34,7 @@ class MyApp extends StatelessWidget {
 
       home: MultiProvider(
         providers: [  // notifiers about game/user events
+          ChangeNotifierProvider(create: (context) => UpdatedCaughtPointNotifier()),
           ChangeNotifierProvider(create: (context) => CaughtPointNotifier()),
           ChangeNotifierProvider(create: (context) => StatusNotifier()),
         ],

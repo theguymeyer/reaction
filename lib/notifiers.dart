@@ -35,3 +35,14 @@ class CaughtPointNotifier extends ChangeNotifier{
   }
 
 }
+
+class UpdatedCaughtPointNotifier extends ChangeNotifier {
+  int _caughtPoints = 0;
+
+  int get caughtPoints => _caughtPoints;
+
+  void caughtNew() {
+    _caughtPoints++;
+    notifyListeners();
+  }
+}

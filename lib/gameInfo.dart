@@ -1,13 +1,12 @@
 // import 'dart:html';
 
 import 'package:chain_reaction/levels.dart';
-import 'package:flutter/material.dart';
 // import 'package:flutter/material.dart';
 
 /// contains: {current score, level batch size, ...}
 class GameInfo {
 
-  Levels _allLevels = new Levels();
+  final Levels _allLevels = new Levels();
   int _currentLevel;  /// Level numbering starts from 1 (...humans)
 
   double _timeBonusPerCatch = 0.3;
