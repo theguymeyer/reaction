@@ -45,4 +45,8 @@ class UpdatedCaughtPointNotifier extends ChangeNotifier {
     _caughtPoints++;
     notifyListeners();
   }
+
+  void reset() {
+    _caughtPoints = 0;
+  }
 }

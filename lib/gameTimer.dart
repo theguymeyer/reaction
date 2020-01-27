@@ -77,6 +77,8 @@ class _GameTimerState extends State<GameTimer> with SingleTickerProviderStateMix
             //   // myCaughtPointNotifier.caughtNew();
             // }
 
+            print("caughtPoints:\t ${myCaughtPointNotifier.caughtPoints}");
+
             return ClipRRect(
               borderRadius: BorderRadius.circular(80.0),
               child: Container(  // count down bar
