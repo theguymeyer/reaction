@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 class GameTimer extends StatefulWidget {
 
   Key key;
-  double timeBonus;
+  double timeBonus; // the amount added for every caught Point
 
   GameTimer(this.key, this.timeBonus);
 
@@ -17,6 +17,7 @@ class GameTimer extends StatefulWidget {
 
 class _GameTimerState extends State<GameTimer> with SingleTickerProviderStateMixin {
 
+  int _caughtPoints;
   Tween<double> _tween;
   Animation<double> _timerAnimation;
   AnimationController _timerAnimationController;
@@ -24,6 +25,8 @@ class _GameTimerState extends State<GameTimer> with SingleTickerProviderStateMix
   @override
   initState() {
     super.initState();
+
+    _caughtPoints = 0;
 
     /// Use this to Count down till game over
     _timerAnimationController = new AnimationController(
@@ -77,7 +80,8 @@ class _GameTimerState extends State<GameTimer> with SingleTickerProviderStateMix
             //   // myCaughtPointNotifier.caughtNew();
             // }
 
-            print("caughtPoints:\t ${myCaughtPointNotifier.caughtPoints}");
+            // print("newTimerValue:\t ${myCaughtPointNotifier.caughtPoints - _caughtPoints}");
+            newTimerValue(_timerAnimation.value, myCaughtPointNotifier.caughtPoints - _caughtPoints, widget.timeBonus);
 
             return ClipRRect(
               borderRadius: BorderRadius.circular(80.0),
@@ -86,7 +90,8 @@ class _GameTimerState extends State<GameTimer> with SingleTickerProviderStateMix
                   color: Colors.green // TODO add animation here
                 ),
                 width: MediaQuery.of(context).size.width * 0.05,
-                height: MediaQuery.of(context).size.height * _timerAnimation.value ,
+                height: MediaQuery.of(context).size.height * _timerAnimation.value,
+                  // * newTimerValue(_timerAnimation.value, myCaughtPointNotifier.caughtPoints - _caughtPoints, widget.timeBonus),
               )
             );
           }
@@ -123,6 +128,35 @@ class _GameTimerState extends State<GameTimer> with SingleTickerProviderStateMix
 
     // Provider.of<CaughtPointNotifier>(context, listen: false).toggle();
 
+  }
+
+  /// Calculates a multiplier of the maxSize based on the difference in caught points
+  ///   * input: int newlyCaughtPoints (number of points caught since last build), double currentSize, double timeBonus (from widget via gameInfo)
+  ///   * output: double newTimerValue
+  /// 
+  ///   * contraints: must be between 0.0 and 1.0
+  /// 
+  ///   therefore,
+  ///     newTimerValue = currentSize + newlyCaughtPoints * timeBonus if <= 1.0 else 1.0
+  void newTimerValue(double currentTimerValue, int newlyCaughtPoints, double gameTimeBonus) {
+    var tmpTime = currentTimerValue + newlyCaughtPoints * gameTimeBonus;
+
+    assert(tmpTime >= 0.0);
+    // TODO: else freezeField()
+
+    print("tmpTime:\t ${(tmpTime > 1.0) ? 1.0 : (tmpTime)}");
+
+    // TODO: setState?
+    _caughtPoints = newlyCaughtPoints;
+
+    stop();
+    _tween.begin = (tmpTime > 1.0) ? 1.0 : (tmpTime); // max out at 1
+    _tween.end = 0.0;
+    reset();
+    start();
+
+    // upper limit of 1.0
+    // return (tmpTime > 1.0) ? 1.0 : (tmpTime);
   }
 
 }
