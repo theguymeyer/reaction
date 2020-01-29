@@ -15,6 +15,12 @@ class GameTimer extends StatefulWidget {
 
 }
 
+/// Tracks the state of the timer 
+///   * the timer setters: stop, reset, start (thru forward) 
+///   * Tracks the value of the timer
+///   * value = 0 (animation expiry) => level over (freeze field) => StatusNotifier
+///   * CaughtPointNotifier => value = value + timeBonus * (CaughtNotifier.value - _caughtPoints) => _caughtPoints = CaughtNotifier.value
+///   * move down a pixel every frame
 class _GameTimerState extends State<GameTimer> with SingleTickerProviderStateMixin {
 
   int _caughtPoints;
@@ -81,8 +87,8 @@ class _GameTimerState extends State<GameTimer> with SingleTickerProviderStateMix
             // }
 
             // print("newTimerValue:\t ${myCaughtPointNotifier.caughtPoints - _caughtPoints}");
-            newTimerValue(_timerAnimation.value, myCaughtPointNotifier.caughtPoints - _caughtPoints, widget.timeBonus);
-
+            //newTimerValue(_timerAnimation.value, myCaughtPointNotifier.caughtPoints - _caughtPoints, widget.timeBonus);
+            
             return ClipRRect(
               borderRadius: BorderRadius.circular(80.0),
               child: Container(  // count down bar
@@ -137,7 +143,7 @@ class _GameTimerState extends State<GameTimer> with SingleTickerProviderStateMix
   ///   * contraints: must be between 0.0 and 1.0
   /// 
   ///   therefore,
-  ///     newTimerValue = currentSize + newlyCaughtPoints * timeBonus if <= 1.0 else 1.0
+  ///     newTimerValue = (currentSize + newlyCaughtPoints * timeBonus) if <= 1.0 else 1.0
   void newTimerValue(double currentTimerValue, int newlyCaughtPoints, double gameTimeBonus) {
     var tmpTime = currentTimerValue + newlyCaughtPoints * gameTimeBonus;
 
