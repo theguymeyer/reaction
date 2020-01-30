@@ -81,15 +81,26 @@ class _GameTimerState extends State<GameTimer> with SingleTickerProviderStateMix
     // track points internally
     _caughtPoints = _newPoints;
 
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(80.0),
-      child: Container(  // count down bar
-        decoration: new BoxDecoration(
-          color: Colors.green // TODO add animation here
-        ),
-        width: MediaQuery.of(context).size.width * 0.04,
-        height: MediaQuery.of(context).size.height * (_timerAnimation.value),
-      )
+
+
+    return Consumer<StatusNotifier>(
+      builder: (context, myStatusNotifier, _) {
+
+        (myStatusNotifier.getStatus == Status.ready) ? stop() : null;
+        (myStatusNotifier.getStatus == Status.userTap) ? start() : null;
+
+      
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(80.0),
+          child: Container(  // count down bar
+            decoration: new BoxDecoration(
+              color: Colors.green // TODO add animation here
+            ),
+            width: MediaQuery.of(context).size.width * 0.04,
+            height: MediaQuery.of(context).size.height * (_timerAnimation.value),
+          )
+        );
+      }
     );
   }
 

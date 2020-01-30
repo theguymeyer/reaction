@@ -7,7 +7,7 @@ class Levels {
   int _numberOfLevels;
 
   List<Level> _levels = [
-    Level(1, 100, 0.2),
+    Level(1, 5, 0.2),
     Level(2, 20, 0.3),
     Level(3, 20, 0.5),
     Level(4, 20, 0.7),
