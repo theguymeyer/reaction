@@ -69,6 +69,10 @@ class _GameTimerState extends State<GameTimer> with SingleTickerProviderStateMix
   @override
   Widget build(BuildContext context) {
 
+    /// notifications set by fieldManagerWidget.GestureDectector
+    
+
+    /// notifications set by fieldManagerWidget.collisionCheck
     int _newPoints = Provider.of<CaughtPointNotifier>(context).caughtPoints;
     if (_caughtPoints != _newPoints) {
       addTimeToTimer((_newPoints - _caughtPoints) * widget.timeBonus);
@@ -83,7 +87,7 @@ class _GameTimerState extends State<GameTimer> with SingleTickerProviderStateMix
         decoration: new BoxDecoration(
           color: Colors.green // TODO add animation here
         ),
-        width: MediaQuery.of(context).size.width * 0.05,
+        width: MediaQuery.of(context).size.width * 0.04,
         height: MediaQuery.of(context).size.height * (_timerAnimation.value),
       )
     );
