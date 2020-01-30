@@ -1,17 +1,26 @@
 import 'dart:ui';
 import 'dart:math' as math;
 
+import 'package:chain_reaction/gameInfo.dart';
+
 import 'point.dart';
 
 /// Class responsible for [Point]-related tasks
 class PointManager {
 
-  static double radMax = 15;  // to have variant radiis
-  double radOffset = radMax / 2 + 1;
-  double speedMultiple = (4.5); // to have variant point speeds
-  double speedOffset = 0.5;
+  GameInfo gameInfo;
 
-  PointManager();
+  static double radMax;  // to have variant radiis
+  double radOffset;
+  double speedMultiple; // to have variant point speeds
+  double speedOffset;
+
+  PointManager(this.gameInfo) {
+    radMax = gameInfo.currentLevel.sizeRangeMax - gameInfo.currentLevel.sizeRangeMin;
+    radOffset = (gameInfo.currentLevel.sizeRangeMax + gameInfo.currentLevel.sizeRangeMin) / 2 + 1;
+    speedMultiple = gameInfo.currentLevel.speedRangesMax - gameInfo.currentLevel.speedRangeMin;
+    speedOffset = (gameInfo.currentLevel.speedRangesMax + gameInfo.currentLevel.speedRangeMin) / 2 + 1;
+  }
 
   // generate new points for game
   List<Point> addNewPoints(List<Point> pointsList, int batchSize, Size size) {
@@ -22,8 +31,8 @@ class PointManager {
 
       pointsList.add(
         Point(
-          Offset(rng.nextDouble() * size.width, rng.nextDouble() * size.height) * (0.8) 
-            + Offset(radMax + radOffset + 1, radMax + radOffset + 1),
+          Offset(rng.nextDouble() * size.width, rng.nextDouble() * size.height) * (0.8)
+            + Offset(radMax + radOffset, radMax + radOffset), // to not create points outside field
           rng.nextDouble() * radMax + radOffset,
           (Offset(math.cos(velocityAngle), math.sin(velocityAngle)) * (speedMultiple * rng.nextDouble() + speedOffset) )
         )

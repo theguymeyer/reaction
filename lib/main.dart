@@ -98,7 +98,7 @@ class _GamePageState extends State<GamePage> {
               child: Column( // Timer bar
                 verticalDirection: VerticalDirection.up,
                 children: <Widget>[
-                  GameTimer(UniqueKey(), 0.3),
+                  GameTimer(UniqueKey(), gameInfo),
                 ]  // needs provider for listener_status: Completed => FieldManager.freezeField()
               ),
             );

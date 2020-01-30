@@ -1,3 +1,4 @@
+import 'package:chain_reaction/gameInfo.dart';
 import 'package:chain_reaction/notifiers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -6,9 +7,10 @@ import 'package:provider/provider.dart';
 class GameTimer extends StatefulWidget {
 
   Key key;
-  double timeBonus; // beginning of animation
+  GameInfo gameInfo;
+  // double timeBonus; // beginning of animation
 
-  GameTimer(this.key, this.timeBonus);
+  GameTimer(this.key, this.gameInfo);
 
   @override
   _GameTimerState createState() => new _GameTimerState();
@@ -39,7 +41,7 @@ class _GameTimerState extends State<GameTimer> with SingleTickerProviderStateMix
       vsync: this,
 
       // countdown time (TODO add to gameInfo variable API)
-      duration: new Duration(milliseconds: 3000),
+      duration: new Duration(milliseconds: widget.gameInfo.initialTimerValue),
     );
 
     /// tween interpolation
@@ -75,7 +77,7 @@ class _GameTimerState extends State<GameTimer> with SingleTickerProviderStateMix
     /// notifications set by fieldManagerWidget.collisionCheck
     int _newPoints = Provider.of<CaughtPointNotifier>(context).caughtPoints;
     if (_caughtPoints != _newPoints) {
-      addTimeToTimer((_newPoints - _caughtPoints) * widget.timeBonus);
+      addTimeToTimer((_newPoints - _caughtPoints) * widget.gameInfo.timeBonusPerCatch);
     }
 
     // track points internally

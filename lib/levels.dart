@@ -6,16 +6,55 @@ class Levels {
 
   int _numberOfLevels;
 
+  // Level(this._id, this._batchSize, this._sizeRange, this._speedRange, this._initialTime, this._timeBonusDecimal, this._targetScore)
   List<Level> _levels = [
-    Level(1, 5, 0.2),
-    Level(2, 20, 0.3),
-    Level(3, 20, 0.5),
-    Level(4, 20, 0.7),
-    Level(5, 20, 0.8),
-    Level(6, 10, 0.9),
+    // Level(1, 30, Offset(10, 15), Offset(0.5, 2.5), 3000, 0.3, 10),
+    // Level(2, 30, Offset(3, 10), Offset(3.5, 5.5), 1000, 0.2, 10),
+    // Level(2, 20, 0.3),
+    // Level(3, 20, 0.5),
+    // Level(4, 20, 0.7),
+    // Level(5, 20, 0.8),
+    // Level(6, 10, 0.9),
   ];
 
-  Levels() {_numberOfLevels = _levels.length; }
+  Levels() {
+    _numberOfLevels = 10; 
+
+    // BatchSize range = [40 -> 10]
+    var initBatch = 40;
+    var finalBatch = 10;
+
+    // Point Size ranges = [Offset(10,20) -> Offset(3,5)] 
+    var initSizeMin = 10.0;
+    var initSizeMax = 20.0;
+    var finalSizeMin = 3.0;
+    var finalSizeMax = 5.0;
+
+    // Point Speed ranges = [Offset(10,20) -> Offset(3,5)] 
+    var initSpeedMin = 1.5;
+    var initSpeedMax = 4.5;
+    var finalSpeedMin = 0.4;
+    var finalSpeedMax = 1.5;
+
+    // Initial Time ranges = [3000 -> 500] msec
+    var initStartTime = 3000;
+    var finalStartTime = 1000;
+
+    for (int id = 1; id <= _numberOfLevels; id ++) {
+
+      var currentBatchSize = initBatch - ((initBatch - finalBatch)/_numberOfLevels * id).floor();
+
+      _levels.add(Level(
+        id, 
+        currentBatchSize, 
+        Offset(initSizeMin - (initSizeMin - finalSizeMin)/_numberOfLevels * id, initSizeMax - (initSizeMax - finalSizeMax)/_numberOfLevels * id),
+        Offset(initSpeedMin - (initSpeedMin - finalSpeedMin)/_numberOfLevels * id, initSpeedMax - (initSpeedMax - finalSpeedMax)/_numberOfLevels * id),
+        initStartTime - ((initStartTime/finalStartTime)/_numberOfLevels * id).floor(), 
+        0.3, 
+        (currentBatchSize * 0.5)
+      ));
+    }
+  }
 
   int get numberOfLevels => _numberOfLevels;
 
@@ -26,7 +65,7 @@ class Levels {
       }
     }
 
-    return Level(null, 1, 0.1);  // Level Not found
+    return Level(null, 3, Offset(3, 20), Offset(0.5, 2.5), 3000, 0.5, 3);  // Level Not found
   }
 
 }
@@ -36,21 +75,34 @@ class Level {
 
   Key _key = UniqueKey();
 
-  int _id;
-  int _batchSize;
-  double _difficulty;  // Range = ( 0.0 , 1.0 ]
-  double _targetScore;
+  final int _id;
+  final int _batchSize;
+  final Offset _sizeRange;  // Range = [1.0, 30.0) , ranges of sizes , see: pointManager.radMax
+  final Offset _speedRange; // Range = (0.0, inf) , ranges of the speed multipier, see: pointManager.speedMultiple
+  final int _initialTime; // start time of the Game Timer in milliseconds
+  final double _timeBonusDecimal; // Range =  [0.0 , 1.0) , percentage of _initialTime added with every caughtPoint
+  final double _targetScore;
 
-  Level(this._id, this._batchSize, this._difficulty) {
+  Level(this._id, this._batchSize, this._sizeRange, this._speedRange, this._initialTime, this._timeBonusDecimal, this._targetScore) {
     // requires validation
     assert(this._batchSize > 0);
-    assert(this._difficulty > 0 && this._difficulty <= 1.0);
+    assert(_sizeRange.dx > 0 && _sizeRange.dy > _sizeRange.dx);
+    assert(_speedRange.dx > 0 && _speedRange.dy > _speedRange.dx);
+    assert(_initialTime > 0);
+    assert(_timeBonusDecimal >= 0 && _timeBonusDecimal < 1.0);
 
-    _targetScore = (this._batchSize * this._difficulty);
+    // TODO make targetScore a calculated value
     assert(this._targetScore > 0);
   }
 
+  int get levelID => _id;
   int get batchSize => _batchSize;
-  double get difficulty => _difficulty;
+  double get sizeRangeMin => _sizeRange.dx;
+  double get sizeRangeMax => _sizeRange.dy;
+  double get speedRangeMin => _speedRange.dx;
+  double get speedRangesMax => _speedRange.dy;
+  int get initialTime => _initialTime;
+  double get timeBonus => _timeBonusDecimal;
   double get targetScore => _targetScore;
+
 }

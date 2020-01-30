@@ -8,7 +8,7 @@ import 'package:chain_reaction/pointManager.dart';
 import 'package:chain_reaction/notifiers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:provider/provider.dart';  // testing - delet if unused
+import 'package:provider/provider.dart'; 
 
 /// Widget to hold all playing field elements (OpenPainter)
 /// OpenPainter used to draw canvas and points
@@ -32,7 +32,7 @@ class FieldManagerWidget extends StatefulWidget {
 
 class _FieldManagerWidgetState extends State<FieldManagerWidget> {
 
-  static PointManager pm = new PointManager();
+  static PointManager pm;
   OpenPainter myPainter;
   int _frameCallbackId; // render related - frame scheduling
 
@@ -46,6 +46,7 @@ class _FieldManagerWidgetState extends State<FieldManagerWidget> {
   initState() {
     super.initState();
 
+    pm  = new PointManager(widget.gameInfo);
     myPainter = new OpenPainter(widget._pointList);
 
     _scheduleTick();
