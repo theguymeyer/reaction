@@ -182,9 +182,7 @@ class _FieldManagerWidgetState extends State<FieldManagerWidget> {
     myPoint.stop(); 
 
     if (currentVelocity != myPoint.vel) {
-      // toggle caughtPointNotifier to notify listeners - TODO: add setState here?
-      Provider.of<CaughtPointNotifier>(context, listen: false).toggle();  // TODO take out?
-      Provider.of<UpdatedCaughtPointNotifier>(context, listen: false).caughtNew();
+      Provider.of<CaughtPointNotifier>(context, listen: false).caughtNew();
       widget.gameInfo.addPoints(myPoint.value);
     }
 

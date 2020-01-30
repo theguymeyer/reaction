@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 class GameTimer extends StatefulWidget {
 
   Key key;
-  double timeBonus; // the amount added for every caught Point
+  double timeBonus; // beginning of animation
 
   GameTimer(this.key, this.timeBonus);
 
@@ -69,40 +69,23 @@ class _GameTimerState extends State<GameTimer> with SingleTickerProviderStateMix
   @override
   Widget build(BuildContext context) {
 
-    // Timer has set location/alignment (TODO: location should probably be in higher widget)
-    return Consumer<StatusNotifier>(
-      builder: (context, myStatusNotifier, _) {
+    int _newPoints = Provider.of<CaughtPointNotifier>(context).caughtPoints;
+    if (_caughtPoints != _newPoints) {
+      addTimeToTimer((_newPoints - _caughtPoints) * widget.timeBonus);
+    }
 
-        (myStatusNotifier.getStatus == Status.ready) ? stop() : null;
-        (myStatusNotifier.getStatus == Status.userTap) ? start() : null;
+    // track points internally
+    _caughtPoints = _newPoints;
 
-        return Consumer<UpdatedCaughtPointNotifier>(
-          builder: (context, myCaughtPointNotifier, _) {
-
-            // TODO make a stream from provider (currently throwing error: setState in build)
-            // (myCaughtPointNotifier.caughtNewPoint.value == true) ? addTimeToTimer(widget.timeBonus) : null;
-
-            // if (myCaughtPointNotifier.caughtPoints == context.dependOnInheritedWidgetOfExactType(UpdatedCaughtPointNotifier)) {
-            //   // myCaughtPointNotifier.caughtNew();
-            // }
-
-            // print("newTimerValue:\t ${myCaughtPointNotifier.caughtPoints - _caughtPoints}");
-            //newTimerValue(_timerAnimation.value, myCaughtPointNotifier.caughtPoints - _caughtPoints, widget.timeBonus);
-            
-            return ClipRRect(
-              borderRadius: BorderRadius.circular(80.0),
-              child: Container(  // count down bar
-                decoration: new BoxDecoration(
-                  color: Colors.green // TODO add animation here
-                ),
-                width: MediaQuery.of(context).size.width * 0.05,
-                height: MediaQuery.of(context).size.height * _timerAnimation.value,
-                  // * newTimerValue(_timerAnimation.value, myCaughtPointNotifier.caughtPoints - _caughtPoints, widget.timeBonus),
-              )
-            );
-          }
-        );
-      }
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(80.0),
+      child: Container(  // count down bar
+        decoration: new BoxDecoration(
+          color: Colors.green // TODO add animation here
+        ),
+        width: MediaQuery.of(context).size.width * 0.05,
+        height: MediaQuery.of(context).size.height * (_timerAnimation.value),
+      )
     );
   }
 
@@ -123,8 +106,6 @@ class _GameTimerState extends State<GameTimer> with SingleTickerProviderStateMix
   void addTimeToTimer(double timeToAdd) {
     var currValue = _timerAnimation.value;
     var tmpTime = timeToAdd + currValue;
-
-    // print("cuaght points");
 
     stop();
     _tween.begin = (tmpTime > 1) ? 1 : (tmpTime); // max out at 1

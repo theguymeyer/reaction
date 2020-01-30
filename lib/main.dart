@@ -13,6 +13,7 @@ import 'dart:math';
 import 'package:chain_reaction/gameInfo.dart';
 import 'package:chain_reaction/fieldManagerWidget.dart';
 import 'package:chain_reaction/gameTimer.dart';
+// import 'package:chain_reaction/my_game_timer.dart';
 import 'package:chain_reaction/notifiers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
 
       home: MultiProvider(
         providers: [  // notifiers about game/user events
-          ChangeNotifierProvider(create: (context) => UpdatedCaughtPointNotifier()),
+          // ChangeNotifierProvider(create: (context) => UpdatedCaughtPointNotifier()),
           ChangeNotifierProvider(create: (context) => CaughtPointNotifier()),
           ChangeNotifierProvider(create: (context) => StatusNotifier()),
         ],
@@ -75,7 +76,7 @@ class _GamePageState extends State<GamePage> {
     // build game elements
     gameInfo = GameInfo(currentLevel);  
     myField = new FieldManagerWidget(UniqueKey(), gameInfo); // gameRules: numberOfPoints, speedRanges, radiusRanges
-    myGameTimer = new GameTimer(UniqueKey(), gameInfo.timeBonusPerCatch);
+    // myGameTimer = new GameTimer(UniqueKey(), gameInfo.timeBonusPerCatch);
 
   }
 
@@ -96,7 +97,9 @@ class _GamePageState extends State<GamePage> {
               visible: (Provider.of<StatusNotifier>(context).getStatus == Status.userTap) ? true : false, 
               child: Column( // Timer bar
                 verticalDirection: VerticalDirection.up,
-                children: <Widget>[myGameTimer]  // needs provider for listener_status: Completed => FieldManager.freezeField()
+                children: <Widget>[
+                  GameTimer(UniqueKey(), 0.3),
+                ]  // needs provider for listener_status: Completed => FieldManager.freezeField()
               ),
             );
           }),
@@ -113,9 +116,7 @@ class _GamePageState extends State<GamePage> {
           Container( // score Text
             alignment: Alignment(0.8, 0.93),
             child: Consumer<CaughtPointNotifier>(
-              builder: (context, myCaughtPointNotifier, _) {
-
-                // print("myCaughtPointNotifier\t ${myCaughtPointNotifier.caughtNewPoint}");
+              builder: (context, _, __) {
 
                 if (gameInfo.score.round() >= gameInfo.targetScoreForCurrentLevel.round()) {
                   return IconButton(
@@ -156,8 +157,8 @@ class _GamePageState extends State<GamePage> {
       gameInfo = GameInfo(currentLevel);  
 
       myField = FieldManagerWidget(UniqueKey(), gameInfo);
-      myGameTimer = GameTimer(UniqueKey(), gameInfo.timeBonusPerCatch);
-      Provider.of<UpdatedCaughtPointNotifier>(context, listen: false).reset();
+      // myGameTimer = GameTimer(UniqueKey(), gameInfo.timeBonusPerCatch);
+      Provider.of<CaughtPointNotifier>(context, listen: false).reset();
       Provider.of<StatusNotifier>(context, listen: false).setStatus(Status.ready);
     });
   }

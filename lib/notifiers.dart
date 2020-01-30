@@ -21,22 +21,7 @@ class StatusNotifier extends ChangeNotifier {
 
 }
 
-/// used to notify other widgets when a new point is frozen
-class CaughtPointNotifier extends ChangeNotifier{
-
-  ValueNotifier<bool> _caughtNewPoint = ValueNotifier(false);
-
-  ValueNotifier<bool> get caughtNewPoint => _caughtNewPoint;
-
-  // notifier does not care about value only when the event occured
-  void toggle() {
-    _caughtNewPoint = ValueNotifier(!(_caughtNewPoint.value));
-    notifyListeners();
-  }
-
-}
-
-class UpdatedCaughtPointNotifier extends ChangeNotifier {
+class CaughtPointNotifier extends ChangeNotifier {
   int _caughtPoints = 0;
 
   int get caughtPoints => _caughtPoints;
