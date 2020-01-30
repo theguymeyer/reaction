@@ -144,20 +144,25 @@ class _GamePageState extends State<GamePage> {
 
   }
 
+  /// This restart function is only responsible for reseting all necessary fields of the game
+  ///   * This function does NOT move to the next level
+  ///     => currentLevel = (currentLevel); 
+  /// 
+  ///   * Get gameInfo for new level
+  ///   * reset the; field, timer and notifiers (UpdatedCaughtPoint, Status)
   void restartLevel() {
-
-    // do not change level
-    //    => currentLevel = (currentLevel); 
 
     setState(() {
       gameInfo = GameInfo(currentLevel);  
-      // gameInfo.resetScore(); 
+
       myField = FieldManagerWidget(UniqueKey(), gameInfo);
       myGameTimer = GameTimer(UniqueKey(), gameInfo.timeBonusPerCatch);
+      Provider.of<UpdatedCaughtPointNotifier>(context, listen: false).reset();
       Provider.of<StatusNotifier>(context, listen: false).setStatus(Status.ready);
     });
   }
 
+  /// Move level counter to next level and restart game
   void nextLevel() {
     setState(() {
 
