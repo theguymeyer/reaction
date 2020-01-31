@@ -8,7 +8,7 @@ class Levels {
 
   // Level(this._id, this._batchSize, this._sizeRange, this._speedRange, this._initialTime, this._timeBonusDecimal, this._targetScore)
   List<Level> _levels = [
-    // Level(1, 10, Offset(2, 15), Offset(0.2, 7.5), 2000, 0.3, 10),
+    Level(1, 10, Offset(2, 15), Offset(0.2, 7.5), 2000, 0.3, 10),
     Level(2, 30, Offset(3, 10), Offset(3.5, 5.5), 1000, 0.2, 10),
     // Level(2, 20, 0.3),
     // Level(3, 20, 0.5),
@@ -21,18 +21,18 @@ class Levels {
     _numberOfLevels = 100; 
 
     // BatchSize range = [40 -> 10]
-    var initBatch = 30;
+    var initBatch = 20;
     var finalBatch = 5;
 
     // Point Size ranges = [Offset(10,20) -> Offset(3,5)] 
-    var initSizeMin = 10.0;
-    var initSizeMax = 18.0;
+    var initSizeMin = 7.0;
+    var initSizeMax = 15.0;
     var finalSizeMin = 3.0;
     var finalSizeMax = 5.0;
 
     // Point Speed ranges = [Offset(10,20) -> Offset(3,5)] 
     var initSpeedMin = 0.2;
-    var initSpeedMax = 1.5;
+    var initSpeedMax = 0.9;
     var finalSpeedMin = 0.3;
     var finalSpeedMax = 0.9;
 

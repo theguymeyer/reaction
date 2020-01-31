@@ -75,7 +75,6 @@ class _FieldManagerWidgetState extends State<FieldManagerWidget> {
           return Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            // color: Colors.green[50],
 
             child: CustomPaint(
               painter: new OpenPainter(widget._pointList)
@@ -90,7 +89,6 @@ class _FieldManagerWidgetState extends State<FieldManagerWidget> {
           child: Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            // color: Colors.green[50],
 
             child: CustomPaint(
               painter: new OpenPainter(widget._pointList)

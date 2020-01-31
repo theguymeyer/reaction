@@ -14,7 +14,7 @@ class Point {
   double _value = 1;
 
   // color randomization
-  static List<Color> colorList = [Colors.green, Colors.red, Colors.blue, Colors.yellow, Colors.black];
+  static List<Color> colorList = [Colors.green, Colors.red, Colors.blue, Colors.yellow, Colors.white];
   Color myColor = colorList[Random().nextInt(colorList.length)];
 
   Point(this.pos, this.rad, this.vel) : _paint = Paint()..color = Colors.red;
