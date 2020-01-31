@@ -21,20 +21,20 @@ class Levels {
     _numberOfLevels = 10; 
 
     // BatchSize range = [40 -> 10]
-    var initBatch = 40;
-    var finalBatch = 10;
+    var initBatch = 30;
+    var finalBatch = 5;
 
     // Point Size ranges = [Offset(10,20) -> Offset(3,5)] 
     var initSizeMin = 10.0;
-    var initSizeMax = 20.0;
+    var initSizeMax = 18.0;
     var finalSizeMin = 3.0;
     var finalSizeMax = 5.0;
 
     // Point Speed ranges = [Offset(10,20) -> Offset(3,5)] 
-    var initSpeedMin = 1.5;
-    var initSpeedMax = 4.5;
-    var finalSpeedMin = 0.4;
-    var finalSpeedMax = 1.5;
+    var initSpeedMin = 0.2;
+    var initSpeedMax = 1.5;
+    var finalSpeedMin = 0.3;
+    var finalSpeedMax = 0.9;
 
     // Initial Time ranges = [3000 -> 500] msec
     var initStartTime = 3000;

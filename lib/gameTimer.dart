@@ -119,48 +119,19 @@ class _GameTimerState extends State<GameTimer> with SingleTickerProviderStateMix
   // void regenKey() => widget.key = UniqueKey();
 
   /// adds time to timerAnimation Tween
-  /// Triggered by NEW moving point collisions with frozen points
+  /// Triggered by newly frozen points only
   void addTimeToTimer(double timeToAdd) {
     var currValue = _timerAnimation.value;
     var tmpTime = timeToAdd + currValue;
 
     stop();
-    _tween.begin = (tmpTime > 1) ? 1 : (tmpTime); // max out at 1
+    _tween.begin = (tmpTime > 1) ? 1.0 : (tmpTime); // max out at 1
     _tween.end = 0;
     reset();
     start();
 
     // Provider.of<CaughtPointNotifier>(context, listen: false).toggle();
 
-  }
-
-  /// Calculates a multiplier of the maxSize based on the difference in caught points
-  ///   * input: int newlyCaughtPoints (number of points caught since last build), double currentSize, double timeBonus (from widget via gameInfo)
-  ///   * output: double newTimerValue
-  /// 
-  ///   * contraints: must be between 0.0 and 1.0
-  /// 
-  ///   therefore,
-  ///     newTimerValue = (currentSize + newlyCaughtPoints * timeBonus) if <= 1.0 else 1.0
-  void newTimerValue(double currentTimerValue, int newlyCaughtPoints, double gameTimeBonus) {
-    var tmpTime = currentTimerValue + newlyCaughtPoints * gameTimeBonus;
-
-    assert(tmpTime >= 0.0);
-    // TODO: else freezeField()
-
-    print("tmpTime:\t ${(tmpTime > 1.0) ? 1.0 : (tmpTime)}");
-
-    // TODO: setState?
-    _caughtPoints = newlyCaughtPoints;
-
-    stop();
-    _tween.begin = (tmpTime > 1.0) ? 1.0 : (tmpTime); // max out at 1
-    _tween.end = 0.0;
-    reset();
-    start();
-
-    // upper limit of 1.0
-    // return (tmpTime > 1.0) ? 1.0 : (tmpTime);
   }
 
 }
