@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 enum Status {
   ready,    /// ready for user input
   userTap,  /// user has tapped
-  finished  /// timer ran out
+  finished,  /// timer ran out
+  winner
 }
 
 /// tracks the status of the application
@@ -33,5 +34,15 @@ class CaughtPointNotifier extends ChangeNotifier {
 
   void reset() {
     _caughtPoints = 0;
+  }
+}
+
+class TotalScore extends ChangeNotifier {
+  double _totalScore = 0;
+
+  double get score => _totalScore;
+
+  void addTotalPoints(double points) {
+    _totalScore += points;
   }
 }

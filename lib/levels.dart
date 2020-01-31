@@ -8,8 +8,8 @@ class Levels {
 
   // Level(this._id, this._batchSize, this._sizeRange, this._speedRange, this._initialTime, this._timeBonusDecimal, this._targetScore)
   List<Level> _levels = [
-    // Level(1, 30, Offset(10, 15), Offset(0.5, 2.5), 3000, 0.3, 10),
-    // Level(2, 30, Offset(3, 10), Offset(3.5, 5.5), 1000, 0.2, 10),
+    // Level(1, 10, Offset(2, 15), Offset(0.2, 7.5), 2000, 0.3, 10),
+    Level(2, 30, Offset(3, 10), Offset(3.5, 5.5), 1000, 0.2, 10),
     // Level(2, 20, 0.3),
     // Level(3, 20, 0.5),
     // Level(4, 20, 0.7),
@@ -18,7 +18,7 @@ class Levels {
   ];
 
   Levels() {
-    _numberOfLevels = 10; 
+    _numberOfLevels = 100; 
 
     // BatchSize range = [40 -> 10]
     var initBatch = 30;
@@ -37,7 +37,7 @@ class Levels {
     var finalSpeedMax = 0.9;
 
     // Initial Time ranges = [3000 -> 500] msec
-    var initStartTime = 3000;
+    var initStartTime = 2000;
     var finalStartTime = 1000;
 
     for (int id = 1; id <= _numberOfLevels; id ++) {
@@ -67,6 +67,8 @@ class Levels {
 
     return Level(null, 3, Offset(3, 20), Offset(0.5, 2.5), 3000, 0.5, 3);  // Level Not found
   }
+
+
 
 }
 

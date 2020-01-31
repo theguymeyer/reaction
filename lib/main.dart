@@ -38,6 +38,7 @@ class MyApp extends StatelessWidget {
             // ChangeNotifierProvider(create: (context) => UpdatedCaughtPointNotifier()),
             ChangeNotifierProvider(create: (context) => CaughtPointNotifier()),
             ChangeNotifierProvider(create: (context) => StatusNotifier()),
+            ChangeNotifierProvider(create: (context) => TotalScore()),
           ],
           child: GamePage(),
         ));
@@ -113,6 +114,10 @@ class _GamePageState extends State<GamePage> {
                 restartLevel: () {
                   restartLevel();
                 },
+                nextLevel: () {
+                  Provider.of<TotalScore>(context, listen: false).addTotalPoints(gameInfo.score);
+                  nextLevel();
+                },
               )),
         ),
         Container(
@@ -132,12 +137,12 @@ class _GamePageState extends State<GamePage> {
   void restartLevel() {
     setState(() {
       gameInfo = GameInfo(currentLevel);
+      gameInfo.resetScore();
 
       myField = FieldManagerWidget(UniqueKey(), gameInfo);
       // myGameTimer = GameTimer(UniqueKey(), gameInfo.timeBonusPerCatch);
       Provider.of<CaughtPointNotifier>(context, listen: false).reset();
-      Provider.of<StatusNotifier>(context, listen: false)
-          .setStatus(Status.ready);
+      Provider.of<StatusNotifier>(context, listen: false).setStatus(Status.ready);
     });
   }
 

@@ -70,7 +70,7 @@ class _FieldManagerWidgetState extends State<FieldManagerWidget> {
       builder: (context, statusNotifier, _) {
 
         if (statusNotifier.getStatus != Status.ready) {
-          (statusNotifier.getStatus == Status.finished) ? freezeField() : null;
+          (statusNotifier.getStatus == Status.finished || statusNotifier.getStatus == Status.winner) ? freezeField() : null;
 
           return Container(
             width: MediaQuery.of(context).size.width,
@@ -185,6 +185,10 @@ class _FieldManagerWidgetState extends State<FieldManagerWidget> {
     if (currentVelocity != myPoint.vel) {
       Provider.of<CaughtPointNotifier>(context, listen: false).caughtNew();
       widget.gameInfo.addPoints(myPoint.value);
+    }
+
+    if (widget.gameInfo.reachedTarget()) {
+      Provider.of<StatusNotifier>(context, listen: false).setStatus(Status.winner);
     }
 
     return myPoint;

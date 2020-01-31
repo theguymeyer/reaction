@@ -1,19 +1,23 @@
 // import 'dart:html';
 
 import 'package:chain_reaction/levels.dart';
+import 'package:chain_reaction/notifiers.dart';
+import 'package:provider/provider.dart';
 // import 'package:flutter/material.dart';
 
 /// contains: {current score, level batch size, ...}
 class GameInfo {
+
+  /// Level numbering starts from 1 (...humans)
   final Levels _allLevels = new Levels();
   int _currentLevel;
 
-  /// Level numbering starts from 1 (...humans)
+  // TotalScore _totalScore;
+
 
   double _timeBonusPerCatch = 0.3;
   int _batchSize;
   static double _score = 0;
-  double _totalScore = 0;
 
   GameInfo(this._currentLevel) {
     _currentLevel = this._currentLevel;
@@ -24,7 +28,7 @@ class GameInfo {
   double get timeBonusPerCatch => _timeBonusPerCatch;
   int get batchSize => _batchSize;
   double get score => _score;
-  double get totalScore => _totalScore;
+  // double get totalScore => _totalScore.score;
   int get numberOfLevels => _allLevels.numberOfLevels;
   double get targetScoreForCurrentLevel =>
       _allLevels.levelById(_currentLevel).targetScore;
@@ -37,6 +41,10 @@ class GameInfo {
 
   void addPoints(double points) {
     _score += points;
-    _totalScore += points;
+    // Provider.of<TotalScore>(context) _totalScore.addTotalPoints(points);
+  }
+
+  bool reachedTarget() {
+    return (_score >= targetScoreForCurrentLevel) ? true : false;
   }
 }

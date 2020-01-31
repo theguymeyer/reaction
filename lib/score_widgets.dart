@@ -39,10 +39,10 @@ class _ScoreWidgetsState extends State<ScoreWidgets> {
             })),
             Container(
                 // alignment: Alignment(1.0, -1.0),
-                child: Consumer<CaughtPointNotifier>(
-                    builder: (context, thisNotifier, _) {
+                child: Consumer<TotalScore>(
+                    builder: (context, totalScore, _) {
               return Text(
-                "${widget._gameInfo.totalScore.round()}",
+                "${totalScore.score.round()}",
                 style: TextStyle(
                   fontSize: 50.0,
                   fontWeight: FontWeight.w600,
