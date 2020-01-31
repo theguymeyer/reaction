@@ -5,16 +5,17 @@ import 'package:chain_reaction/levels.dart';
 
 /// contains: {current score, level batch size, ...}
 class GameInfo {
-
   final Levels _allLevels = new Levels();
-  int _currentLevel;  /// Level numbering starts from 1 (...humans)
+  int _currentLevel;
+
+  /// Level numbering starts from 1 (...humans)
 
   double _timeBonusPerCatch = 0.3;
   int _batchSize;
-  double _score = 0;
+  static double _score = 0;
+  double _totalScore = 0;
 
   GameInfo(this._currentLevel) {
-
     _currentLevel = this._currentLevel;
     _batchSize = _allLevels.levelById(_currentLevel).batchSize;
   }
@@ -23,13 +24,19 @@ class GameInfo {
   double get timeBonusPerCatch => _timeBonusPerCatch;
   int get batchSize => _batchSize;
   double get score => _score;
+  double get totalScore => _totalScore;
   int get numberOfLevels => _allLevels.numberOfLevels;
-  double get targetScoreForCurrentLevel => _allLevels.levelById(_currentLevel).targetScore;
+  double get targetScoreForCurrentLevel =>
+      _allLevels.levelById(_currentLevel).targetScore;
   Level get currentLevel => _allLevels.levelById(_currentLevel);
   int get initialTimerValue => _allLevels.levelById(_currentLevel).initialTime;
 
-  void resetScore() { _score = 0; }
-  void addPoints(double points) { _score += points; }
+  void resetScore() {
+    _score = 0;
+  }
 
+  void addPoints(double points) {
+    _score += points;
+    _totalScore += points;
+  }
 }
-
