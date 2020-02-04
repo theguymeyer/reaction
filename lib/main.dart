@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
     return new MaterialApp(
         title: 'Chain Reaction',
         theme: ThemeData(
-          // Define the default brightness and colors.
+          // Dark Mode
           brightness: Brightness.dark,
           primaryColor: Colors.lightBlue[800],
           accentColor: Colors.cyan[600],
