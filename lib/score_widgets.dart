@@ -17,9 +17,7 @@ class ScoreWidgets extends StatefulWidget {
 class _ScoreWidgetsState extends State<ScoreWidgets> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.symmetric(vertical: 52),
-        child: Column(
+    return Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
@@ -28,7 +26,6 @@ class _ScoreWidgetsState extends State<ScoreWidgets> {
                 child: Consumer<CaughtPointNotifier>(
                     builder: (context, thisNotifier, _) {
               return Text(
-                // TODO this reaching zero freezes game and next level
                 "${widget._gameInfo.targetScoreForCurrentLevel.round() - thisNotifier.caughtPoints}",
                 style: TextStyle(
                   fontSize: 50.0,
@@ -51,6 +48,6 @@ class _ScoreWidgetsState extends State<ScoreWidgets> {
               );
             })),
           ],
-        ));
+        );
   }
 }

@@ -13,6 +13,7 @@ import 'package:chain_reaction/gameInfo.dart';
 import 'package:chain_reaction/fieldManagerWidget.dart';
 import 'package:chain_reaction/gameTimer.dart';
 import 'package:chain_reaction/menu_widgets.dart';
+import 'package:chain_reaction/next_level_widget.dart';
 // import 'package:chain_reaction/my_game_timer.dart';
 import 'package:chain_reaction/notifiers.dart';
 import 'package:chain_reaction/score_widgets.dart';
@@ -122,27 +123,40 @@ class _GamePageState extends State<GamePage> {
           );
         }),
         Container(
-          // menu widgets
-          alignment: Alignment(-0.85, -0.85),
-          child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-              child: MenuWidgets(
-                currentLevel: currentLevel,
-                restartLevel: () {
-                  restartLevel();
-                },
-                nextLevel: () {
-                  Provider.of<TotalScore>(context, listen: false)
-                      .addTotalPoints(gameInfo.score);
-                  nextLevel();
-                },
-              )),
-        ),
-        Container(
-          // score widgets
-          alignment: Alignment(0.85, 1.0),
-          child: ScoreWidgets(gameInfo),
-        ),
+            padding: EdgeInsets.all(30),
+            alignment: Alignment(-0.85, 0.95),
+            child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  FittedBox(
+                    // menu widgets (restart button and info button)
+                    child: Padding(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                        child: MenuWidgets(
+                          restartLevel: () {
+                            restartLevel();
+                          },
+                        )),
+                  ),
+                  FittedBox(
+                    // next level
+                    child: NextLevelWidget(
+                      currentLevel: currentLevel,
+                      nextLevel: () {
+                        Provider.of<TotalScore>(context, listen: false)
+                            .addTotalPoints(gameInfo.score);
+                        nextLevel();
+                      },
+                    ),
+                  ),
+                  FittedBox(
+                    // score widgets
+                    alignment: Alignment(0.85, 0.85),
+                    child: ScoreWidgets(gameInfo),
+                  )
+                ])),
       ],
     ));
   }
