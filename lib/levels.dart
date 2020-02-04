@@ -8,8 +8,9 @@ class Levels {
 
   // Level(this._id, this._batchSize, this._sizeRange, this._speedRange, this._initialTime, this._timeBonusDecimal, this._targetScore)
   List<Level> _levels = [
-    Level(1, 10, Offset(2, 15), Offset(0.2, 7.5), 2000, 0.3, 10),
-    Level(2, 30, Offset(3, 10), Offset(3.5, 5.5), 1000, 0.2, 10),
+    Level(1, 5, Offset(4, 20), Offset(1,17), 700, 0.1, 4), // high variance Size and Speed
+    Level(2, 10, Offset(2, 15), Offset(0.2, 7.5), 2000, 0.1, 10), // fun level
+    Level(3, 30, Offset(3, 10), Offset(3.5, 5.5), 1000, 0.1, 10),
     // Level(2, 20, 0.3),
     // Level(3, 20, 0.5),
     // Level(4, 20, 0.7),

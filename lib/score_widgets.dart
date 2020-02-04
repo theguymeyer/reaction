@@ -21,7 +21,7 @@ class _ScoreWidgetsState extends State<ScoreWidgets> {
         padding: EdgeInsets.symmetric(vertical: 52),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             Container(
                 // alignment: Alignment(1.0, 1.0),
@@ -44,7 +44,7 @@ class _ScoreWidgetsState extends State<ScoreWidgets> {
               return Text(
                 "${totalScore.score.round()}",
                 style: TextStyle(
-                  fontSize: 50.0,
+                  fontSize: 25.0,
                   fontWeight: FontWeight.w600,
                   // backgroundColor: Colors.green,
                 ),

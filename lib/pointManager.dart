@@ -50,13 +50,21 @@ class PointManager {
     final fieldHeight = size.height;
     final fieldWidth = size.width;
 
-    if (myPoint.pos.dx + myPoint.rad >= fieldWidth || myPoint.pos.dx - myPoint.rad <= 0) {
-      // change horiz speed - collision with side wall
-      return Offset(myPoint.vel.dx * -1, myPoint.vel.dy);
 
-    } else if (myPoint.pos.dy + myPoint.rad >= fieldHeight || myPoint.pos.dy - myPoint.rad <= 0) {
-      // change vert speed - collision with top/bottom wall
-      return Offset(myPoint.vel.dx, myPoint.vel.dy * -1);
+    /// splitting this into individual if statements corrects the issue of the disappearing balls
+    /// Objective: if a ball moves outside playing field it will be 'dragged' back into play 
+    if (myPoint.pos.dy + myPoint.rad >= fieldHeight) {
+      // collision with bottom
+      return Offset(myPoint.vel.dx, myPoint.vel.dy.abs() * -1);
+    } else if (myPoint.pos.dy - myPoint.rad <= 0) {
+      // collision with top
+      return Offset(myPoint.vel.dx, myPoint.vel.dy.abs());
+    } else if (myPoint.pos.dx + myPoint.rad >= fieldWidth) {
+      // collision with right side
+      return Offset((myPoint.vel.dx).abs() * -1, myPoint.vel.dy);
+    } else if (myPoint.pos.dx - myPoint.rad <= 0) {
+      // collision with left side
+      return Offset(myPoint.vel.dx.abs(), myPoint.vel.dy);
     }
 
     return myPoint.vel;

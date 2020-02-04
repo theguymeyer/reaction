@@ -139,7 +139,8 @@ class _GamePageState extends State<GamePage> {
               )),
         ),
         Container(
-          alignment: Alignment(0.85, -1.0),
+          // score widgets
+          alignment: Alignment(0.85, 1.0),
           child: ScoreWidgets(gameInfo),
         ),
       ],
