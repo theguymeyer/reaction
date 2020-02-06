@@ -169,7 +169,13 @@ class _GamePageState extends State<GamePage> {
                         )
                       ])),
             )),
-        Container(
+        Positioned(
+          bottom: MediaQuery.of(context).size.height * 0.2,
+          left: 15,
+          // height: MediaQuery.of(context).size.height,
+          // width: MediaQuery.of(context).size.width,
+            // child: Container(
+            //   alignment: Alignment(0, 0),
             child: NextLevelWidget(
               // next level button
               currentLevel: currentLevel,

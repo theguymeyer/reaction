@@ -22,7 +22,7 @@ class _NextLevelWidgetState extends State<NextLevelWidget> with SingleTickerProv
 
   // final double _elevation = 20;
   Color _startColor = Colors.transparent;
-  Color _endColor = Colors.white;
+  Color _endColor = Colors.lightBlue;
 
   Tween<Color> _colorTween;
   Animation<Color> _nextLevelAnimation;
@@ -37,7 +37,7 @@ class _NextLevelWidgetState extends State<NextLevelWidget> with SingleTickerProv
       vsync: this,
 
       // countdown time (TODO add to gameInfo variable API)
-      duration: new Duration(milliseconds: 2000),
+      duration: new Duration(milliseconds: 1000),
     );
 
     /// tween interpolation

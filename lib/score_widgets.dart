@@ -25,7 +25,7 @@ class _ScoreWidgetsState extends State<ScoreWidgets> {
                 child: Consumer<CaughtPointNotifier>(
                     builder: (context, thisNotifier, _) {
               return Text(
-                "${thisNotifier.caughtPoints}/${widget._gameInfo.targetScoreForCurrentLevel.round()}",
+                "${thisNotifier.caughtPoints}|${widget._gameInfo.targetScoreForCurrentLevel.round()}",
                 style: TextStyle(
                   fontSize: 40.0,
                   fontWeight: FontWeight.w600,
