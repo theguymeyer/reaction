@@ -89,7 +89,7 @@ class _GameTimerState extends State<GameTimer> with SingleTickerProviderStateMix
       builder: (context, myStatusNotifier, _) {
 
         (myStatusNotifier.getStatus == Status.ready) ? stop() : null;
-        (myStatusNotifier.getStatus == Status.userTap) ? start() : null;
+        (myStatusNotifier.getStatus == Status.userTap && _timerAnimation.value > 0) ? start() : null;
 
       
         return ClipRRect(
