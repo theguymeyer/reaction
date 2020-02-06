@@ -122,17 +122,8 @@ class _GamePageState extends State<GamePage> {
                 ),
           );
         }),
-        NextLevelWidget(
-          // next level button
-          currentLevel: currentLevel,
-          nextLevel: () {
-            Provider.of<TotalScore>(context, listen: false)
-                .addTotalPoints(gameInfo.score);
-            nextLevel();
-          },
-        ),
         Container(
-            padding: EdgeInsets.all(30),
+            // padding: EdgeInsets.all(30),
             alignment: Alignment.bottomCenter,
             child: SizedBox(
               // HUD (Heads Up Display)
@@ -177,6 +168,16 @@ class _GamePageState extends State<GamePage> {
                           child: ScoreWidgets(gameInfo),
                         )
                       ])),
+            )),
+        Container(
+            child: NextLevelWidget(
+              // next level button
+              currentLevel: currentLevel,
+              nextLevel: () {
+                Provider.of<TotalScore>(context, listen: false)
+                    .addTotalPoints(gameInfo.score);
+                nextLevel();
+              },
             )),
       ],
     ));

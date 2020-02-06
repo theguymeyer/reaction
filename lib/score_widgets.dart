@@ -18,8 +18,7 @@ class _ScoreWidgetsState extends State<ScoreWidgets> {
   @override
   Widget build(BuildContext context) {
     return Column(
-          // crossAxisAlignment: CrossAxisAlignment.stretch,
-          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
             Container(
                 // alignment: Alignment(1.0, 1.0),
