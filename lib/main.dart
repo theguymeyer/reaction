@@ -122,41 +122,62 @@ class _GamePageState extends State<GamePage> {
                 ),
           );
         }),
+        NextLevelWidget(
+          // next level button
+          currentLevel: currentLevel,
+          nextLevel: () {
+            Provider.of<TotalScore>(context, listen: false)
+                .addTotalPoints(gameInfo.score);
+            nextLevel();
+          },
+        ),
         Container(
             padding: EdgeInsets.all(30),
-            alignment: Alignment(-0.85, 0.95),
-            child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  FittedBox(
-                    // menu widgets (restart button and info button)
-                    child: Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                        child: MenuWidgets(
-                          restartLevel: () {
-                            restartLevel();
-                          },
-                        )),
-                  ),
-                  FittedBox(
-                    // next level
-                    child: NextLevelWidget(
-                      currentLevel: currentLevel,
-                      nextLevel: () {
-                        Provider.of<TotalScore>(context, listen: false)
-                            .addTotalPoints(gameInfo.score);
-                        nextLevel();
-                      },
-                    ),
-                  ),
-                  FittedBox(
-                    // score widgets
-                    alignment: Alignment(0.85, 0.85),
-                    child: ScoreWidgets(gameInfo),
-                  )
-                ])),
+            alignment: Alignment.bottomCenter,
+            child: SizedBox(
+              // HUD (Heads Up Display)
+              child: Container(
+                  color: Colors.grey.withOpacity(0.3),
+                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                  child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        FittedBox(
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                // level info and menu buttons
+                                children: <Widget>[
+                              FittedBox(
+                                // level count
+                                child: Text(
+                                  "Lv. ${(currentLevel).toString()}",
+                                  style: TextStyle(
+                                    fontSize: 30.0,
+                                    fontWeight: FontWeight.w600,
+                                    // backgroundColor: Colors.green,
+                                  ),
+                                ),
+                              ),
+                              FittedBox(
+                                // menu widgets (restart button and info button)
+                                child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 0),
+                                    child: MenuWidgets(
+                                      restartLevel: () {
+                                        restartLevel();
+                                      },
+                                    )),
+                              ),
+                            ])),
+                        FittedBox(
+                          // score widgets
+                          alignment: Alignment(0.85, 0.85),
+                          child: ScoreWidgets(gameInfo),
+                        )
+                      ])),
+            )),
       ],
     ));
   }

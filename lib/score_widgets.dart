@@ -18,17 +18,17 @@ class _ScoreWidgetsState extends State<ScoreWidgets> {
   @override
   Widget build(BuildContext context) {
     return Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.end,
+          // crossAxisAlignment: CrossAxisAlignment.stretch,
+          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Container(
                 // alignment: Alignment(1.0, 1.0),
                 child: Consumer<CaughtPointNotifier>(
                     builder: (context, thisNotifier, _) {
               return Text(
-                "${widget._gameInfo.targetScoreForCurrentLevel.round() - thisNotifier.caughtPoints}",
+                "${thisNotifier.caughtPoints}/${widget._gameInfo.targetScoreForCurrentLevel.round()}",
                 style: TextStyle(
-                  fontSize: 50.0,
+                  fontSize: 40.0,
                   fontWeight: FontWeight.w600,
                   // backgroundColor: Colors.green,
                 ),

@@ -9,17 +9,17 @@ class MenuWidgets extends StatelessWidget {
   final GameCallback restartLevel;
   // final GameCallback nextLevel;
   final double _horizPadding = 0;
-  final double _vertPadding = 5;
-  final double _elevation = 20;
+  final double _vertPadding = 0;
+  final double _elevation = 10;
 
   // const MenuWidgets({this.currentLevel, this.restartLevel, this.nextLevel});
   const MenuWidgets({this.restartLevel});
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       children: <Widget>[
-        Column(
+        Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
@@ -30,7 +30,7 @@ class MenuWidgets extends StatelessWidget {
                       vertical: _vertPadding, horizontal: _horizPadding),
                   child: Container(
                       child: FloatingActionButton(
-                          mini: false,
+                          mini: true,
                           backgroundColor: Colors.red,
                           elevation: _elevation,
                           child: Icon(FontAwesomeIcons.undoAlt),
@@ -42,7 +42,7 @@ class MenuWidgets extends StatelessWidget {
                       vertical: _vertPadding, horizontal: _horizPadding),
                   child: Container(
                       child: FloatingActionButton(
-                          mini: false,
+                          mini: true,
                           backgroundColor: Colors.blue,
                           elevation: _elevation,
                           child: Icon(FontAwesomeIcons.smile),
