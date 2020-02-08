@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'dart:math' as math;
 
 import 'package:chain_reaction/gameInfo.dart';
+import 'package:chain_reaction/main.dart';
 
 import 'point.dart';
 
@@ -28,6 +29,9 @@ class PointManager {
 
     for (var i = 0; i < batchSize; i++) {
       var velocityAngle = rng.nextDouble() * (2 * math.pi);
+
+      // if angles are shallow (within 10% of x/y axis) increase them by 45 degrees
+      if (math.sin(velocityAngle).abs() > 0.9 || math.sin(velocityAngle).abs() < 0.1) { velocityAngle += math.pi / 4; }
 
       pointsList.add(
         Point(

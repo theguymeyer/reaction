@@ -6,16 +6,17 @@ import 'package:provider/provider.dart';
 
 class NextLevelWidget extends StatefulWidget {
   final int currentLevel;
-  // final GameCallback restartLevel;
+  final GameCallback restartLevel;
   final GameCallback nextLevel;
 
-  const NextLevelWidget({this.currentLevel, this.nextLevel});
+  const NextLevelWidget({this.currentLevel, this.nextLevel, this.restartLevel});
 
   @override
   _NextLevelWidgetState createState() => _NextLevelWidgetState();
 }
 
-class _NextLevelWidgetState extends State<NextLevelWidget> with SingleTickerProviderStateMixin {
+class _NextLevelWidgetState extends State<NextLevelWidget>
+    with SingleTickerProviderStateMixin {
   // final double _horizPadding = 0;
 
   // final double _vertPadding = 5;
@@ -32,12 +33,12 @@ class _NextLevelWidgetState extends State<NextLevelWidget> with SingleTickerProv
   initState() {
     super.initState();
 
-        /// Use this to Count down till game over
+    /// Use this to Count down till game over
     _nextLevelAnimationController = new AnimationController(
       vsync: this,
 
       // countdown time (TODO add to gameInfo variable API)
-      duration: new Duration(milliseconds: 1000),
+      duration: new Duration(milliseconds: 1500),
     );
 
     /// tween interpolation
@@ -46,86 +47,97 @@ class _NextLevelWidgetState extends State<NextLevelWidget> with SingleTickerProv
     /// animation - countdown timer bar
     _nextLevelAnimation = _colorTween.animate(_nextLevelAnimationController)
       ..addListener(() {
-
         if (_nextLevelAnimation.value == _startColor) {
-            _nextLevelAnimationController.forward();
+          _nextLevelAnimationController.forward();
         } else if (_nextLevelAnimation.value == _endColor) {
           _nextLevelAnimationController.reverse();
         }
-
       })
       ..addStatusListener((AnimationStatus status) {
         // if (status == AnimationStatus.completed) {
-          
+
         // print("${_nextLevelAnimation.value}");
 
         //   setState(() {
         //     _nextLevelAnimationController.reverse();
-        //   }); 
+        //   });
         // // } else if (status == AnimationStatus.values.)
         // }
-      }
-    );
+      });
 
     _nextLevelAnimationController.forward();
-
   }
 
   @override
   Widget build(BuildContext context) {
+    var textBorderThickness = 0.2;
+
     return Column(
 
         /// next level button
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Consumer<StatusNotifier>(builder: (context, myStatusNotifer, _) {
-            if (myStatusNotifer.getStatus == Status.winner) {
-              return GestureDetector(
-                // behavior: HitTestBehavior.translucent,
-                onTapDown: (details) => widget.nextLevel(),
+          Expanded(
+              child: Align(
+                  alignment: Alignment.center,
+                  child: Consumer<StatusNotifier>(
+                      builder: (context, myStatusNotifer, _) {
+                    if (myStatusNotifer.getStatus == Status.winner) {
+                      return GestureDetector(
+                        // behavior: HitTestBehavior.translucent,
+                        onTapDown: (details) => widget.nextLevel(),
 
-                child: Text(
-                  "Tap To Continue",
-                  style: TextStyle(
-                    color: _nextLevelAnimation.value,
-                    fontSize: 30.0,
-                    fontWeight: FontWeight.w600,
-                    // backgroundColor: Colors.green,
-                  ),
-                ),
-              );
-            }
+                        child: Text(
+                          "You Won!\nTap To Continue",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: _nextLevelAnimation.value,
+                              fontSize: 50.0,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      );
+                    } else if (myStatusNotifer.getStatus == Status.finished) {
+                      return GestureDetector(
+                        // behavior: HitTestBehavior.translucent,
+                        onTapDown: (details) => widget.restartLevel(),
 
-            else {
-              return Text("");
-            }
-
-            // return Text(
-            //   "Lv. ${(widget.currentLevel).toString()}",
-            //   style: TextStyle(
-            //     fontSize: 30.0,
-            //     fontWeight: FontWeight.w600,
-            //     // backgroundColor: Colors.green,
-              // ),
-            // );
-
-            // (myStatusNotifer.getStatus == Status.winner)
-            //     ? RaisedButton(
-            //         elevation: _elevation,
-            //         color: Colors.yellow,
-            //         child: Text("Lv. ${(currentLevel + 1).toString()}",
-            //             style: TextStyle(fontSize: 20)),
-            //         onPressed: () {
-            //           nextLevel();
-            //         },
-            //       )
-            //     : RaisedButton(
-            //         child: Text("Lv. ${(currentLevel).toString()}",
-            //             style: TextStyle(fontSize: 20)),
-            //         onPressed: () {},
-            //       );
-          })
+                        child: Text(
+                          "You Lose...\nTap To Try Again",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 30.0,
+                              fontWeight: FontWeight.w600,
+                              shadows: [
+                                Shadow(
+                                    // bottomLeft
+                                    offset: Offset(textBorderThickness * -1,
+                                        textBorderThickness * -1),
+                                    color: Colors.white),
+                                Shadow(
+                                    // bottomRight
+                                    offset: Offset(textBorderThickness,
+                                        textBorderThickness * -1),
+                                    color: Colors.white),
+                                Shadow(
+                                    // topRight
+                                    offset: Offset(textBorderThickness,
+                                        textBorderThickness),
+                                    color: Colors.white),
+                                Shadow(
+                                    // topLeft
+                                    offset: Offset(textBorderThickness * -1,
+                                        textBorderThickness),
+                                    color: Colors.white),
+                              ]
+                              ),
+                        ),
+                      );
+                    } else {
+                      return Text("");
+                    }
+                  })))
         ]);
   }
 }

@@ -123,10 +123,9 @@ class _GamePageState extends State<GamePage> {
           );
         }),
         Container(
-            // padding: EdgeInsets.all(30),
             alignment: Alignment.bottomCenter,
             child: SizedBox(
-              // HUD (Heads Up Display)
+              /// [HUD] (Heads Up Display)
               child: Container(
                   color: Colors.grey.withOpacity(0.3),
                   padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
@@ -169,14 +168,13 @@ class _GamePageState extends State<GamePage> {
                         )
                       ])),
             )),
-        Positioned(
-          bottom: MediaQuery.of(context).size.height * 0.2,
-          left: 15,
-          // height: MediaQuery.of(context).size.height,
-          // width: MediaQuery.of(context).size.width,
-            // child: Container(
-            //   alignment: Alignment(0, 0),
-            child: NextLevelWidget(
+        // Center(
+        Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            alignment: Alignment.topCenter,
+            child: Center(
+                child: NextLevelWidget(
               // next level button
               currentLevel: currentLevel,
               nextLevel: () {
@@ -184,7 +182,10 @@ class _GamePageState extends State<GamePage> {
                     .addTotalPoints(gameInfo.score);
                 nextLevel();
               },
-            )),
+              restartLevel: () {
+                restartLevel();
+              },
+            ))),
       ],
     ));
   }
