@@ -125,6 +125,8 @@ class _GamePageState extends State<GamePage> {
         Container(
             alignment: Alignment.bottomCenter,
             child: SizedBox(
+              height: MediaQuery.of(context).size.height *
+                  (1.0 / 6), // a sixth of the screen
               /// [HUD] (Heads Up Display)
               child: Container(
                   color: Colors.grey.withOpacity(0.3),
@@ -168,24 +170,19 @@ class _GamePageState extends State<GamePage> {
                         )
                       ])),
             )),
-        // Center(
-        Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            alignment: Alignment.topCenter,
-            child: Center(
-                child: NextLevelWidget(
-              // next level button
-              currentLevel: currentLevel,
-              nextLevel: () {
-                Provider.of<TotalScore>(context, listen: false)
-                    .addTotalPoints(gameInfo.score);
-                nextLevel();
-              },
-              restartLevel: () {
-                restartLevel();
-              },
-            ))),
+        NextLevelWidget(
+          // next level button
+          currentLevel: currentLevel,
+          nextLevel: () {
+            // change score and move to next level
+            Provider.of<TotalScore>(context, listen: false)
+                .addTotalPoints(gameInfo.score);
+            nextLevel();
+          },
+          restartLevel: () {
+            restartLevel();
+          },
+        ),
       ],
     ));
   }
