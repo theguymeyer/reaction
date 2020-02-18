@@ -2,7 +2,6 @@ import 'dart:ui';
 import 'dart:math' as math;
 
 import 'package:chain_reaction/gameInfo.dart';
-import 'package:chain_reaction/main.dart';
 
 import 'point.dart';
 

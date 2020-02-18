@@ -14,9 +14,8 @@ class OpenPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
 
-    // canvas.save();
-
-    // print("Painting");
+    // ensures the largest point is painted 'furthest back'
+    points.sort((p1,p2) => p2.rad.compareTo(p1.rad));
 
     for (var i = 0; i < points.length; i++) {
 
