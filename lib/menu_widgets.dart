@@ -7,13 +7,14 @@ import 'package:provider/provider.dart';
 class MenuWidgets extends StatelessWidget {
   // final int currentLevel;
   final GameCallback restartLevel;
+  final GameCallback showInfo;
   // final GameCallback nextLevel;
   final double _horizPadding = 0;
   final double _vertPadding = 0;
   final double _elevation = 10;
 
   // const MenuWidgets({this.currentLevel, this.restartLevel, this.nextLevel});
-  const MenuWidgets({this.restartLevel});
+  const MenuWidgets({this.restartLevel, this.showInfo});
 
   @override
   Widget build(BuildContext context) {
@@ -46,32 +47,9 @@ class MenuWidgets extends StatelessWidget {
                           backgroundColor: Colors.blue,
                           elevation: _elevation,
                           child: Icon(FontAwesomeIcons.smile),
-                          onPressed: () => {}))),
+                          onPressed: () => {showInfo()}))),
             ]),
-        // Column(
 
-        //     /// level counter + next level button
-        //     crossAxisAlignment: CrossAxisAlignment.start,
-        //     mainAxisAlignment: MainAxisAlignment.end,
-        //     children: <Widget>[
-        //       Consumer<StatusNotifier>(builder: (context, myStatusNotifer, _) {
-        //         return (myStatusNotifer.getStatus == Status.winner)
-        //             ? RaisedButton(
-        //                 elevation: _elevation,
-        //                 color: Colors.yellow,
-        //                 child: Text("Lv. ${(currentLevel + 1).toString()}",
-        //                     style: TextStyle(fontSize: 20)),
-        //                 onPressed: () {
-        //                   nextLevel();
-        //                 },
-        //               )
-        //             : RaisedButton(
-        //                 child: Text("Lv. ${(currentLevel).toString()}",
-        //                     style: TextStyle(fontSize: 20)),
-        //                 onPressed: () {},
-        //               );
-        //       })
-        //     ])
       ],
     );
   }

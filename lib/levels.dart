@@ -38,6 +38,9 @@ class Levels {
     var finalSpeedMin = 0.3;
     var finalSpeedMax = 0.9;
 
+    // additional time added by each catch
+    var timeBonus = 0.2;
+
     // Initial Time ranges = [3000 -> 500] msec
     var initStartTime = 2000;
     var finalStartTime = 1000;
@@ -52,7 +55,7 @@ class Levels {
         Offset(initSizeMin - (initSizeMin - finalSizeMin)/_numberOfLevels * id, initSizeMax - (initSizeMax - finalSizeMax)/_numberOfLevels * id),
         Offset(initSpeedMin - (initSpeedMin - finalSpeedMin)/_numberOfLevels * id, initSpeedMax - (initSpeedMax - finalSpeedMax)/_numberOfLevels * id),
         initStartTime - ((initStartTime/finalStartTime)/_numberOfLevels * id).floor(), 
-        0.3, 
+        timeBonus, 
         (currentBatchSize * 0.5)
       ));
     }
@@ -69,8 +72,6 @@ class Levels {
 
     return Level(null, 3, Offset(3, 20), Offset(0.5, 2.5), 3000, 0.5, 3);  // Level Not found
   }
-
-
 
 }
 

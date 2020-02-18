@@ -46,3 +46,13 @@ class TotalScore extends ChangeNotifier {
     _totalScore += points;
   }
 }
+
+class ShowInfo extends ChangeNotifier {
+  bool _showInfo = false;
+
+  bool get isInfoShowing => _showInfo;
+
+  void toggleInfo() {
+    _showInfo = !(_showInfo);
+  }
+}

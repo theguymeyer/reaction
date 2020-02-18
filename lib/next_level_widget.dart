@@ -1,4 +1,3 @@
-// import 'package:chain_reaction/gameInfo.dart';
 import 'package:chain_reaction/notifiers.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -17,13 +16,9 @@ class NextLevelWidget extends StatefulWidget {
 
 class _NextLevelWidgetState extends State<NextLevelWidget>
     with SingleTickerProviderStateMixin {
-  // final double _horizPadding = 0;
 
-  // final double _vertPadding = 5;
-
-  // final double _elevation = 20;
   static Color _startColor = Colors.yellow;
-  Color _endColor = Colors.blue;
+  static Color _endColor = Colors.blue;
 
   Tween<double> _tween;
   Tween<Color> _colorTween;
@@ -49,6 +44,7 @@ class _NextLevelWidgetState extends State<NextLevelWidget>
     /// animation - countdown timer bar
     _nextLevelAnimation = _colorTween.animate(_nextLevelAnimationController)
       ..addListener(() {
+        // this makes the button colors tween repeat - provides engaging effect!
         if (_nextLevelAnimation.value == _startColor) {
           _nextLevelAnimationController.forward();
         } else if (_nextLevelAnimation.value == _endColor) {
@@ -56,15 +52,6 @@ class _NextLevelWidgetState extends State<NextLevelWidget>
         }
       })
       ..addStatusListener((AnimationStatus status) {
-        // if (status == AnimationStatus.completed) {
-
-        // print("${_nextLevelAnimation.value}");
-
-        //   setState(() {
-        //     _nextLevelAnimationController.reverse();
-        //   });
-        // // } else if (status == AnimationStatus.values.)
-        // }
       });
 
     _nextLevelAnimationController.forward();
@@ -72,7 +59,6 @@ class _NextLevelWidgetState extends State<NextLevelWidget>
 
   @override
   Widget build(BuildContext context) {
-    // var textBorderThickness = 0.2;
 
     return Stack(children: <Widget>[
       AnimatedPositioned(
@@ -89,74 +75,6 @@ class _NextLevelWidgetState extends State<NextLevelWidget>
               icon: Icon(FontAwesomeIcons.arrowCircleRight, size: 70, color: _nextLevelAnimation.value,),
               onPressed: () => widget.nextLevel()))
     ]);
-
-    /* return Column(
-
-        /// next level button
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Expanded(
-              child: Align(
-                  alignment: Alignment.center,
-                  child: Consumer<StatusNotifier>(
-                      builder: (context, myStatusNotifer, _) {
-                    if (myStatusNotifer.getStatus == Status.winner) {
-                      return GestureDetector(
-                        // behavior: HitTestBehavior.translucent,
-                        onTapDown: (details) => widget.nextLevel(),
-
-                        child: Text(
-                          "You Won!\nTap To Continue",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: _nextLevelAnimation.value,
-                              fontSize: 50.0,
-                              fontWeight: FontWeight.w600),
-                        ),
-                      );
-                    } /* else if (myStatusNotifer.getStatus == Status.finished) { // this becomes unnecessary with update
-                      return GestureDetector(
-                        // behavior: HitTestBehavior.translucent,
-                        onTapDown: (details) => widget.restartLevel(),
-
-                        child: Text(
-                          "You Lose...\nTap To Try Again",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Colors.red,
-                              fontSize: 30.0,
-                              fontWeight: FontWeight.w600,
-                              shadows: [
-                                Shadow(
-                                    // bottomLeft
-                                    offset: Offset(textBorderThickness * -1,
-                                        textBorderThickness * -1),
-                                    color: Colors.white),
-                                Shadow(
-                                    // bottomRight
-                                    offset: Offset(textBorderThickness,
-                                        textBorderThickness * -1),
-                                    color: Colors.white),
-                                Shadow(
-                                    // topRight
-                                    offset: Offset(textBorderThickness,
-                                        textBorderThickness),
-                                    color: Colors.white),
-                                Shadow(
-                                    // topLeft
-                                    offset: Offset(textBorderThickness * -1,
-                                        textBorderThickness),
-                                    color: Colors.white),
-                              ]
-                              ),
-                        ),
-                      ); 
-                    } else {
-                      return Text("");
-                    } */ 
-                  })))
-        ]);*/
   }
 }
 

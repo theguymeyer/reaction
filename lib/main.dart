@@ -8,19 +8,17 @@
 // import 'dart:async';
 // import 'dart:html';
 import 'dart:ui';
-import 'dart:math';
 import 'package:chain_reaction/gameInfo.dart';
 import 'package:chain_reaction/fieldManagerWidget.dart';
 import 'package:chain_reaction/gameTimer.dart';
+import 'package:chain_reaction/info_page.dart';
 import 'package:chain_reaction/menu_widgets.dart';
 import 'package:chain_reaction/next_level_widget.dart';
-// import 'package:chain_reaction/my_game_timer.dart';
 import 'package:chain_reaction/notifiers.dart';
 import 'package:chain_reaction/score_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 // local imports
@@ -57,6 +55,7 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider(create: (context) => CaughtPointNotifier()),
             ChangeNotifierProvider(create: (context) => StatusNotifier()),
             ChangeNotifierProvider(create: (context) => TotalScore()),
+            ChangeNotifierProvider(create: (context) => ShowInfo()),
           ],
           child: GamePage(),
         ));
@@ -122,54 +121,67 @@ class _GamePageState extends State<GamePage> {
                 ),
           );
         }),
-        Container(
-            alignment: Alignment.bottomCenter,
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height *
-                  (1.0 / 6), // a sixth of the screen
-              /// [HUD] (Heads Up Display)
-              child: Container(
-                  color: Colors.grey.withOpacity(0.3),
-                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                  child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        FittedBox(
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                // level info and menu buttons
-                                children: <Widget>[
-                              FittedBox(
-                                // level count
-                                child: Text(
-                                  "Lv. ${(currentLevel).toString()}",
-                                  style: TextStyle(
-                                    fontSize: 30.0,
-                                    fontWeight: FontWeight.w600,
-                                    // backgroundColor: Colors.green,
+        Column(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
+          Visibility(
+              maintainSize: true,
+              maintainAnimation: true,
+              maintainState: true,
+              visible: (Provider.of<ShowInfo>(context).isInfoShowing)
+                  ? true
+                  : false,
+              child: InfoPage()), // info page / appreciation page
+          Container(
+              alignment: Alignment.bottomCenter,
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height *
+                    (1.0 / 6), // a sixth of the screen
+                /// [HUD] (Heads Up Display)
+                child: Container(
+                    color: Colors.grey.withOpacity(0.3),
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                    child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          FittedBox(
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  // level info and menu buttons
+                                  children: <Widget>[
+                                FittedBox(
+                                  // level count
+                                  child: Text(
+                                    "Lv. ${(currentLevel).toString()}",
+                                    style: TextStyle(
+                                      fontSize: 30.0,
+                                      fontWeight: FontWeight.w600,
+                                      // backgroundColor: Colors.green,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              FittedBox(
-                                // menu widgets (restart button and info button)
-                                child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 10, horizontal: 0),
-                                    child: MenuWidgets(
-                                      restartLevel: () {
-                                        restartLevel();
-                                      },
-                                    )),
-                              ),
-                            ])),
-                        FittedBox(
-                          // score widgets
-                          alignment: Alignment(0.85, 0.85),
-                          child: ScoreWidgets(gameInfo),
-                        )
-                      ])),
-            )),
+                                FittedBox(
+                                  // menu widgets (restart button and info button)
+                                  child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 10, horizontal: 0),
+                                      child: MenuWidgets(
+                                        restartLevel: () {
+                                          restartLevel();
+                                        },
+                                        showInfo: () {
+                                          showInfo();
+                                        },
+                                      )),
+                                ),
+                              ])),
+                          FittedBox(
+                            // score widgets
+                            alignment: Alignment(0.85, 0.85),
+                            child: ScoreWidgets(gameInfo),
+                          )
+                        ])),
+              )),
+        ]),
         NextLevelWidget(
           // next level button
           currentLevel: currentLevel,
@@ -214,5 +226,11 @@ class _GamePageState extends State<GamePage> {
       print("currentLevel:\t${currentLevel}");
     });
     restartLevel();
+  }
+
+  void showInfo() {
+    setState(() {
+      Provider.of<ShowInfo>(context, listen: false).toggleInfo();
+    });
   }
 }
