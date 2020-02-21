@@ -68,7 +68,7 @@ class _NextLevelWidgetState extends State<NextLevelWidget>
       ..addListener(() {})
       ..addStatusListener((AnimationStatus status) {});
 
-    _nextAnimationController.forward();
+    // _nextAnimationController.forward();
   }
 
   @override
@@ -103,7 +103,7 @@ class _NextLevelWidgetState extends State<NextLevelWidget>
             return AnimatedPositioned(
                 duration: Duration(milliseconds: 500),
                 height: 100,
-                right: (gameStatus == Status.winner) ? 50 : -100,
+                right: (gameStatus == Status.winner) ? 50 : 500,
                 bottom: MediaQuery.of(context).size.height * (1.0 / 6) + 2,
                 child: IconButton(
                     icon: Icon(
