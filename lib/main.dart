@@ -3,6 +3,9 @@
 /// Rev 1.0.0
 ///
 /// In loving memory of Gaby Barsky
+/// 
+/// --- --- ---
+/// Note that most events in the game are driven by `Status` event notifiers
 
 // package imports
 // import 'dart:async';
@@ -15,6 +18,7 @@ import 'package:chain_reaction/info_page.dart';
 import 'package:chain_reaction/menu_widgets.dart';
 import 'package:chain_reaction/next_level_widget.dart';
 import 'package:chain_reaction/notifiers.dart';
+import 'package:chain_reaction/repeat_level_widget.dart';
 import 'package:chain_reaction/score_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -195,6 +199,13 @@ class _GamePageState extends State<GamePage> {
             restartLevel();
           },
         ),
+        // RepeatLevelWidget(
+        //   restartLevel: () {
+        //     Provider.of<TotalScore>(context, listen: false)
+        //         .addTotalPoints(0);
+        //     restartLevel();
+        //   },
+        // )
       ],
     ));
   }

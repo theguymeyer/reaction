@@ -58,14 +58,9 @@ class _GameTimerState extends State<GameTimer> with SingleTickerProviderStateMix
         if (status == AnimationStatus.completed) {
           Provider.of<StatusNotifier>(context, listen: false).setStatus(Status.finished);
 
-          // setState(() {
-          //   status = AnimationStatus.dismissed;
-          // }); 
         }
       }
     );
-
-    // _timerAnimationController.forward();
 
   }
 

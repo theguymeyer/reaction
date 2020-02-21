@@ -206,9 +206,7 @@ class _FieldManagerWidgetState extends State<FieldManagerWidget> {
 
   void _tick(Duration timestamp) {
 
-    // setState(() {
     updateField();
-    // });
 
     // print("TICK!");
     _scheduleTick();  // prep for new frame
